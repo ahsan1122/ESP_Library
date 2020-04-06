@@ -48,15 +48,15 @@ class LoginScreenActivity : BaseActivity(), ListPersonaDAOAdapter.RefreshToken{/
 
         if (Shared.getInstance().ReadPref("url", "base_url", context) != null) {
             Constants.base_url = Shared.getInstance().ReadPref("url", "base_url", context) + Constants.base_url_api
-        } /*else {
+        } else {
             Shared.getInstance().WritePref("url", "https://esp.exceeders.com", "base_url", context)
             Constants.base_url = Shared.getInstance().ReadPref("url", "base_url", context) + Constants.base_url_api
-        }*/
-        else {
+        }
+        /*else {
             Shared.getInstance().WritePref("url", "https://qaesp.azurewebsites.net", "base_url", context)
             //   Shared.getInstance().WritePref("url", "http://espdemo.azurewebsites.net/", "base_url", context)
             Constants.base_url = Shared.getInstance().ReadPref("url", "base_url", context) + Constants.base_url_api
-        }
+        }*/
 
        /* inAppUpdateManager = InAppUpdateManager.Builder(this, REQ_CODE_VERSION_UPDATE)
                 .resumeUpdates(true) // Resume the update, if the update was stalled. Default is true

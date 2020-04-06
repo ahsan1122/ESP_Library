@@ -1,6 +1,7 @@
 package com.esp.library.exceedersesp.controllers.fieldstype.classes;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextUtils;
@@ -9,7 +10,12 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
+import android.widget.ListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.esp.library.R;
@@ -23,6 +29,7 @@ import com.esp.library.utilities.common.GetValues;
 import com.esp.library.utilities.common.Shared;
 import com.esp.library.utilities.common.SharedPreference;
 import com.esp.library.utilities.setup.applications.ApplicationFieldsRecyclerAdapter;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.gson.Gson;
 
 import java.util.List;
@@ -45,6 +52,8 @@ public class CurrencyItem {
     private DynamicStagesCriteriaListDAO criteriaListDAO;
     private String actualResponseJson;
     private EditSectionDetails edisectionDetailslistener;
+    AlertDialog materialAlertDialogBuilder = null;
+    int mSelectedIndex = 0;
 
     public static CurrencyItem getInstance() {
         if (currencyItem == null)
@@ -110,7 +119,7 @@ public class CurrencyItem {
 
 
                     if (!isfocusable) {
-                      //  if (isCalculatedMappedField)
+                        //  if (isCalculatedMappedField)
                         if (finalFieldDAO2.isTigger())
                             CalculatedMappedRequestTrigger.submitCalculatedMappedRequest(mContext, isViewOnly, finalFieldDAO2);
 
@@ -122,7 +131,7 @@ public class CurrencyItem {
             holder.etValue.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                    if(actionId== EditorInfo.IME_ACTION_DONE){
+                    if (actionId == EditorInfo.IME_ACTION_DONE) {
                         //Clear focus here from edittext
                         holder.etValue.clearFocus();
                     }
@@ -254,7 +263,7 @@ public class CurrencyItem {
                     if (ListUsersApplicationsAdapter.Companion.isSubApplications())
                         holder.tValue.setText(fieldDAO.getValue());
                     else {
-                        holder.tValue.setText(fieldDAO.getSelectedCurrencyId() + " (" + fieldDAO.getSelectedCurrencySymbol() + ") "+fieldDAO.getValue());
+                        holder.tValue.setText(fieldDAO.getSelectedCurrencyId() + " (" + fieldDAO.getSelectedCurrencySymbol() + ") " + fieldDAO.getValue());
                         holder.tCurrencyLabel.setText(label);
                         holder.tCurrencyLabel.setVisibility(View.VISIBLE);
                     }
@@ -277,9 +286,9 @@ public class CurrencyItem {
             if (selectedCurrency != null) {
                 if (isViewOnly) {
                     if (ListUsersApplicationsAdapter.Companion.isSubApplications())
-                        holder.tValue.setText(selectedCurrency.getCode() + " (" + selectedCurrency.getSymobl() + ") "+holder.tValue.getText());
+                        holder.tValue.setText(selectedCurrency.getCode() + " (" + selectedCurrency.getSymobl() + ") " + holder.tValue.getText());
                     else {
-                        holder.tValue.setText(selectedCurrency.getCode() + " (" + selectedCurrency.getSymobl() + ") "+fieldDAO.getValue());
+                        holder.tValue.setText(selectedCurrency.getCode() + " (" + selectedCurrency.getSymobl() + ") " + fieldDAO.getValue());
                         holder.tCurrencyLabel.setText(label);
                         holder.tCurrencyLabel.setVisibility(View.VISIBLE);
                     }
@@ -310,31 +319,49 @@ public class CurrencyItem {
 
             if (!isViewOnly) {
                 DynamicFormSectionFieldDAO finalFieldDAO1 = fieldDAO;
-              /*  holder.btnClickArea.setOnClickListener(view -> {
+                holder.btnClickArea.setOnClickListener(view -> {
 
-                    MaterialDialog materialDialog = new MaterialDialog.Builder(mContext)
-                            .title("Currency")
-                            .items(Shared.getInstance().getCurrencyCodesList(finalFieldDAO1))
+                    if (materialAlertDialogBuilder == null) {
+                        List<String> currencyCodesList = Shared.getInstance().getCurrencyCodesList(finalFieldDAO1);
+                        String[] singleChoiceArr = currencyCodesList.toArray(new String[currencyCodesList.size()]);
+                        mSelectedIndex = currencyCodesList.indexOf(holder.etCurrency.getText().toString());
+                        if (currencyCodesList.size() <= 1)
+                            return;
+                        materialAlertDialogBuilder = new MaterialAlertDialogBuilder(mContext, R.style.AlertDialogTheme)
+                                .setTitle("Currency")
+                                .setCancelable(false)
+                                .setSingleChoiceItems(singleChoiceArr, mSelectedIndex, (dialogInterface, currencyPosition) -> {
 
-                            .itemsCallback((dialog, itemView, currencyPosition, currencyCode) -> {
-                                CurrencyDAO currencyDAO = ESPApplication.getInstance().getCurrencies().get(currencyPosition);
-                                CurrencyDAO selectedCurrency1 = Shared.getInstance().getCurrencyByCode(currencyDAO.getCode());
+                                    mSelectedIndex = materialAlertDialogBuilder.getListView().getCheckedItemPosition();
+                                    CurrencyDAO currencyDAO = ESPApplication.getInstance().getCurrencies().get(currencyPosition);
+                                    CurrencyDAO selectedCurrency1 = Shared.getInstance().getCurrencyByCode(currencyDAO.getCode());
 
-                                holder.etCurrency.setText(selectedCurrency1.getCode() + " (" + selectedCurrency1.getSymobl() + ")");
+                                    holder.etCurrency.setText(selectedCurrency1.getCode() + " (" + selectedCurrency1.getSymobl() + ")");
 
-                                finalFieldDAO1.setSelectedCurrencyId(selectedCurrency1.getId());
-                                finalFieldDAO1.setSelectedCurrencySymbol(selectedCurrency1.getSymobl());
+                                    finalFieldDAO1.setSelectedCurrencyId(selectedCurrency1.getId());
+                                    finalFieldDAO1.setSelectedCurrencySymbol(selectedCurrency1.getSymobl());
 
-                                // if (isCalculatedMappedField)
-                                if (finalFieldDAO1.isTigger())
-                                    CalculatedMappedRequestTrigger.submitCalculatedMappedRequest(mContext, isViewOnly, finalFieldDAO1);
+                                    // if (isCalculatedMappedField)
+                                    if (finalFieldDAO1.isTigger())
+                                        CalculatedMappedRequestTrigger.submitCalculatedMappedRequest(mContext, isViewOnly, finalFieldDAO1);
+                                    materialAlertDialogBuilder = null;
+                                    dialogInterface.cancel();
+                                })
+                                .setNegativeButton(mContext.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        materialAlertDialogBuilder = null;
+                                        dialogInterface.cancel();
+                                    }
+                                })
+                                .create();
+                        materialAlertDialogBuilder.show();
 
-                            }).build();
-
-                    materialDialog.show();
+                    }
 
 
-                });*/
+
+                });
             }
 
             /*if (!isViewOnly) {

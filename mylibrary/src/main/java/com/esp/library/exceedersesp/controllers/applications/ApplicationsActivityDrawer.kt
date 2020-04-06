@@ -507,7 +507,7 @@ class ApplicationsActivityDrawer : BaseActivity(), UsersApplicationsFragment.Hid
          }*/
 
         val searchClose = searchView?.findViewById<ImageView>(androidx.appcompat.R.id.search_close_btn)
-        searchClose?.setImageResource(R.drawable.ic_nav_close)
+        searchClose?.setImageResource(R.drawable.ic_icons_close_white)
         searchClose?.setOnClickListener {
             if (myActionMenuItem != null) {
                 myActionMenuItem?.collapseActionView()

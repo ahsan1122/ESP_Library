@@ -1,6 +1,7 @@
 package utilities.adapters.setup.applications
 
 import android.graphics.Color
+import android.os.Handler
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import com.esp.library.utilities.common.SharedPreference
 import com.esp.library.utilities.setup.applications.ApplicationFieldsRecyclerAdapter
 import com.esp.library.exceedersesp.BaseActivity
 import com.esp.library.exceedersesp.controllers.applications.ActivityStageDetails
+import com.esp.library.utilities.common.ViewAnimationUtils
 import com.google.gson.Gson
 import utilities.data.applicants.dynamics.*
 import utilities.interfaces.FeedbackSubmissionClick
@@ -44,7 +46,6 @@ class ListAddApplicationSectionsAdapter(mApplication: ArrayList<DynamicFormSecti
     fun setmApplicationFieldsAdapterListener2(mApplicationFieldsDetailAdapterListener: ActivityStageDetails) {
         this.mApplicationFieldsDetailAdapterListener = mApplicationFieldsDetailAdapterListener
     }
-
 
 
     fun getCriteriaObject(criterialistDAO: DynamicStagesCriteriaListDAO?) {
@@ -200,8 +201,7 @@ class ListAddApplicationSectionsAdapter(mApplication: ArrayList<DynamicFormSecti
         }
         holder.rladdnewsection.visibility = View.GONE
 
-        if (criteriaListDAO != null)
-        {
+        if (criteriaListDAO != null) {
             holder.tvSectionHeaderCount.visibility = View.GONE
             holder.vbottomSeperator.visibility = View.GONE
             holder.vsperatorTop.visibility = View.GONE
@@ -235,39 +235,47 @@ class ListAddApplicationSectionsAdapter(mApplication: ArrayList<DynamicFormSecti
             if (holder.rvFieldsCards.visibility == View.VISIBLE) {
 
 
-                holder.rvFieldsCards.visibility = View.GONE
-                holder.tvSectionLabelsName.visibility = View.VISIBLE
-                holder.rlsection.setBackgroundColor(ContextCompat.getColor(context, R.color.pale_grey))
-                //  holder.tvSectionHeaderCount.setTextColor(ContextCompat.getColor(context, R.color.grey))
-                holder.ivarrow.setImageResource(R.drawable.ic_arrow_down)
-                val concateLabel = StringBuilder()
-                for (i in dynamicFormSectionDAO.fieldsCardsList!!.indices) {
+                ViewAnimationUtils.collapse(holder.rvFieldsCards,holder.tvSectionLabelsName)
 
-                    for (j in dynamicFormSectionDAO.fieldsCardsList!![i].fields!!.indices) {
-                        val label = dynamicFormSectionDAO.fieldsCardsList!![i].fields?.get(j)?.label
-                        concateLabel.append(label)
-                        concateLabel.append(",")
+                val handler = Handler()
+                handler.postDelayed({
+                    holder.rvFieldsCards.visibility = View.GONE
+
+                    holder.tvSectionLabelsName.visibility = View.VISIBLE
+                    holder.rlsection.setBackgroundColor(ContextCompat.getColor(context, R.color.pale_grey))
+                    //  holder.tvSectionHeaderCount.setTextColor(ContextCompat.getColor(context, R.color.grey))
+                    holder.ivarrow.setImageResource(R.drawable.ic_arrow_down)
+                    val concateLabel = StringBuilder()
+                    for (i in dynamicFormSectionDAO.fieldsCardsList!!.indices) {
+
+                        for (j in dynamicFormSectionDAO.fieldsCardsList!![i].fields!!.indices) {
+                            val label = dynamicFormSectionDAO.fieldsCardsList!![i].fields?.get(j)?.label
+                            concateLabel.append(label)
+                            concateLabel.append(",")
+                        }
                     }
-                }
 
-                var fieldLabels: String
-                fieldLabels = concateLabel.toString()
-                if (fieldLabels.endsWith(",")) {
-                    fieldLabels = fieldLabels.substring(0, fieldLabels.length - 1);
-                }
-                holder.tvSectionLabelsName.text = fieldLabels
+                    var fieldLabels: String
+                    fieldLabels = concateLabel.toString()
+                    if (fieldLabels.endsWith(",")) {
+                        fieldLabels = fieldLabels.substring(0, fieldLabels.length - 1);
+                    }
+                    holder.tvSectionLabelsName.text = fieldLabels
 
-                if (dynamicFormSectionDAO.isMultipule)
-                    holder.rladdnewsection.visibility = View.GONE
+                    if (dynamicFormSectionDAO.isMultipule)
+                        holder.rladdnewsection.visibility = View.GONE
+                }, 300)
+
 
             } else {
                 if (dynamicFormSectionDAO.isMultipule && !isViewOnly)
                     holder.rladdnewsection.visibility = View.VISIBLE
-                holder.rvFieldsCards.visibility = View.VISIBLE
+                    holder.rvFieldsCards.visibility = View.VISIBLE
                 holder.tvSectionLabelsName.visibility = View.GONE
                 holder.rlsection.setBackgroundColor(ContextCompat.getColor(context, R.color.white))
                 //   holder.tvSectionHeaderCount.setTextColor(ContextCompat.getColor(context, R.color.green))
                 holder.ivarrow.setImageResource(R.drawable.ic_arrow_up)
+                ViewAnimationUtils.expand(holder.rvFieldsCards)
 
 
             }

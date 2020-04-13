@@ -1,6 +1,7 @@
 package utilities.adapters.setup.applications
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.text.SpannableStringBuilder
 import android.text.Spanned
@@ -13,6 +14,8 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import com.esp.library.R
 import com.esp.library.exceedersesp.controllers.Profile.FragmentProfileImage
+import com.esp.library.utilities.common.SharedPreference
+import kotlinx.android.synthetic.main.sectionlistrow.view.*
 import utilities.data.applicants.dynamics.DynamicFormSectionDAO
 import utilities.interfaces.Itemclick
 
@@ -21,6 +24,9 @@ class SectionListAdapter(private val sections: List<DynamicFormSectionDAO>, priv
 
     private val TAG = "SectionListAdapter"
     internal var itemclick: Itemclick? = null
+
+    var pref: SharedPreference? = null
+
 
     init {
         itemclick = fragmentProfileImage
@@ -37,19 +43,20 @@ class SectionListAdapter(private val sections: List<DynamicFormSectionDAO>, priv
 
 
         init {
-
+            pref = SharedPreference(contxt)
             etxtsectionname = itemView.findViewById(R.id.etxtsectionname)
             etxttime = itemView.findViewById(R.id.etxttime)
             rlclick = itemView.findViewById(R.id.rlclick)
             ivwarning = itemView.findViewById(R.id.ivwarning)
+            setGravity(v)
         }
 
     }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ParentViewHolder {
-        val v: View
-        v = LayoutInflater.from(parent.context).inflate(R.layout.sectionlistrow, parent, false)
+        val v: View = LayoutInflater.from(parent.context).inflate(R.layout.sectionlistrow, parent, false)
+
         return ActivitiesList(v)
     }
 
@@ -61,9 +68,8 @@ class SectionListAdapter(private val sections: List<DynamicFormSectionDAO>, priv
         holder.etxtsectionname.text = dynamicFormSectionDAO.defaultName
         if (dynamicFormSectionDAO.lastUpdatedOn.equals("01 Jan, 0001", ignoreCase = true))
             holder.etxttime.text = contxt.getString(R.string.lastupdatedon)
-        else
-        {
-            val text=contxt.getString(R.string.lastupdatedon) + " " + dynamicFormSectionDAO.lastUpdatedOn
+        else {
+            val text = contxt.getString(R.string.lastupdatedon) + " " + dynamicFormSectionDAO.lastUpdatedOn
             val colorString = dynamicFormSectionDAO.lastUpdatedOn.toString();
 
             val ssBuilder = SpannableStringBuilder(text)
@@ -91,6 +97,16 @@ class SectionListAdapter(private val sections: List<DynamicFormSectionDAO>, priv
 
     }//End Holder Class
 
+    private fun setGravity(v: View) {
+        if (pref?.language.equals("ar", ignoreCase = true)) {
+            v.ivarrow.setImageResource(R.drawable.ic_left_arrow)
+
+
+        } else {
+            v.ivarrow.setImageResource(R.drawable.ic_arrow_right)
+
+        }
+    }
 
     override fun getItemCount(): Int {
         return sections.size

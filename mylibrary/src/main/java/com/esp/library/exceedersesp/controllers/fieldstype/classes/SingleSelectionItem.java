@@ -139,7 +139,7 @@ public class SingleSelectionItem {
                 RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.setMargins(0, 22, 0, 0);
                 radioButton.setLayoutParams(params);
-                radioButton.setPadding(25, 0, 0, 0);
+                radioButton.setPadding(25, 0, 25, 0);
                 holder.radioGroup.addView(radioButton);
 
 

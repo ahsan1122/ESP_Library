@@ -141,8 +141,8 @@ class LoginScreenFragment : androidx.fragment.app.Fragment() {
             val bn = Bundle()
             bn.putString("heading", getString(R.string.logineithidenedi))
 
-               bn.putString("url", "https://app.idenedi.com/app_permission/?response_type=code&client_id=" + pref?.getidenediClientId() + "&redirect_uri=https://esp.exceeders.com/login")
-           // bn.putString("url", "https://idenedi-prod-stag.azurewebsites.net/app_permission/?response_type=code&client_id=" + pref?.getidenediClientId() + "&redirect_uri=https://qaesp.azurewebsites.net/login")
+            //   bn.putString("url", "https://app.idenedi.com/app_permission/?response_type=code&client_id=" + pref?.getidenediClientId() + "&redirect_uri=https://esp.exceeders.com/login")
+            bn.putString("url", "https://idenedi-prod-stag.azurewebsites.net/app_permission/?response_type=code&client_id=" + pref?.getidenediClientId() + "&redirect_uri=https://qaesp.azurewebsites.net/login")
             bn.putBoolean("isIdenedi", true)
             Shared.getInstance().callIntent(WebViewScreenActivity::class.java, context, bn)
         }
@@ -162,11 +162,11 @@ class LoginScreenFragment : androidx.fragment.app.Fragment() {
                 val outputedText = editable.toString()
 
                 if (!Shared.getInstance().isValidEmailAddress(outputedText)) {
-                    v.tilFieldLabel.setErrorEnabled(true)
-                    v.tilFieldLabel.setError(context.getString(R.string.invalidemail))
+                    v.tilFieldLabel.isErrorEnabled = true
+                    v.tilFieldLabel.error = context.getString(R.string.invalidemail)
                 } else {
-                    v.tilFieldLabel.setErrorEnabled(false)
-                    v.tilFieldLabel.setError(null)
+                    v.tilFieldLabel.isErrorEnabled = false
+                    v.tilFieldLabel.error = null
                 }
 
 
@@ -206,8 +206,8 @@ class LoginScreenFragment : androidx.fragment.app.Fragment() {
             getIdenediUser()
         }
 
-        pref?.savelanguage("en")
-        //populateSpinner(v)
+        // pref?.savelanguage("en")
+        populateSpinner(v)
 
         FirebaseInstanceId.getInstance().instanceId
                 .addOnCompleteListener(OnCompleteListener { task ->
@@ -265,11 +265,10 @@ class LoginScreenFragment : androidx.fragment.app.Fragment() {
             setApplicationlanguage(v)
         }
 
-        /*if (pref.getLanguage().equalsIgnoreCase(Locale.getDefault().getLanguage())) {
-            CustomLogs.displayLogs(TAG + " Locale.getDefault(): " + Locale.getDefault().getLanguage());
-            pref.savelanguage(Locale.getDefault().getLanguage());
-            setApplicationlanguage();
-        }*/
+        if (pref?.language.equals(Locale.getDefault().getLanguage(), ignoreCase = true)) {
+            pref?.savelanguage(Locale.getDefault().getLanguage());
+            setApplicationlanguage(v);
+        }
 
 
         val arrayLanguages = ArrayList<String>()
@@ -344,8 +343,8 @@ class LoginScreenFragment : androidx.fragment.app.Fragment() {
     private fun updateFields(v: View) {
         v.txtwelcome.text = getString(R.string.welcometoesp)
         txtenteremailpass?.text = getString(R.string.enteremailandpassword)
-        v.email_input.hint = getString(R.string.email)
-        v.password_input.hint = getString(R.string.password)
+        v.tilFieldLabel.hint = getString(R.string.email)
+        v.tilFieldLabelPassword.hint = getString(R.string.password)
         v.login_btn.text = getString(R.string.sign_in)
         v.forgot_password.text = getString(R.string.forgotpassword)
         v.txtlanguage.text = getString(R.string.language)
@@ -354,12 +353,12 @@ class LoginScreenFragment : androidx.fragment.app.Fragment() {
 
     private fun setGravity(v: View) {
         if (pref?.language.equals("ar", ignoreCase = true)) {
-            v.email_input.gravity = Gravity.RIGHT
-            v.password_input.gravity = Gravity.RIGHT
+            v.email_input.gravity = Gravity.END
+            v.password_input.gravity = Gravity.END
 
         } else {
-            v.email_input.gravity = Gravity.LEFT
-            v.password_input.gravity = Gravity.LEFT
+            v.email_input.gravity = Gravity.START
+            v.password_input.gravity = Gravity.START
         }
     }
 
@@ -506,28 +505,8 @@ class LoginScreenFragment : androidx.fragment.app.Fragment() {
         start_loading_animation()
 
         try {
-            val logging = HttpLoggingInterceptor()
-            logging.level = HttpLoggingInterceptor.Level.BODY
-            val httpClient = OkHttpClient.Builder()
-            httpClient.addInterceptor(logging)
 
-            httpClient.connectTimeout(10, TimeUnit.SECONDS)
-            httpClient.readTimeout(10, TimeUnit.SECONDS)
-            httpClient.writeTimeout(10, TimeUnit.SECONDS)
-
-            val gson = GsonBuilder()
-                    .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
-                    .create()
-
-            val retrofit = Retrofit.Builder()
-                    .baseUrl(Constants.base_url)
-                    .addConverterFactory(GsonConverterFactory.create(gson))
-                    .client(httpClient.build())
-
-                    .build()
-
-
-            val apis = retrofit.create(APIs::class.java)
+            val apis = Shared.getInstance().retroFitObject(context)
             login_call = apis.getToken(postTokenDAO.grant_type, postTokenDAO.username, postTokenDAO.password, postTokenDAO.client_id)
 
             login_call!!.enqueue(object : Callback<TokenDAO> {
@@ -577,14 +556,14 @@ class LoginScreenFragment : androidx.fragment.app.Fragment() {
             ESPApplication.getInstance().tokenPersonas = response.body()
 
             val applicantPersonaId = response.body().applicantPersonaId?.toIntOrNull() ?: 0
-            if (applicantPersonaId > 0 && (response.body().role.equals(context.getString(R.string.admin), ignoreCase = true)
-                            || response.body().role.equals(context.getString(R.string.user), ignoreCase = true))) {
-                response.body().role = context.getString(R.string.applicant)
-            } else if (applicantPersonaId == 0 && (response.body().role.equals(context.getString(R.string.admin), ignoreCase = true)
-                            || response.body().role.equals(context.getString(R.string.user), ignoreCase = true))) {
-                response.body().role = context.getString(R.string.assessor)
-            } else if (applicantPersonaId == 0 && (response.body().role.equals(context.getString(R.string.applicant), ignoreCase = true))) {
-                response.body().role = context.getString(R.string.applicant)
+            if (applicantPersonaId > 0 && (response.body().role.equals(Enums.admin.toString(), ignoreCase = true)
+                            || response.body().role.equals(Enums.user.toString(), ignoreCase = true))) {
+                response.body().role = Enums.applicant.toString()
+            } else if (applicantPersonaId == 0 && (response.body().role.equals(Enums.admin.toString(), ignoreCase = true)
+                            || response.body().role.equals(Enums.user.toString(), ignoreCase = true))) {
+                response.body().role = Enums.assessor.toString()
+            } else if (applicantPersonaId == 0 && (response.body().role.equals(Enums.applicant.toString(), ignoreCase = true))) {
+                response.body().role = Enums.applicant.toString()
             }
 
 
@@ -626,10 +605,10 @@ class LoginScreenFragment : androidx.fragment.app.Fragment() {
                         e.printStackTrace()
                     }
                     var role = response.body().role
-                    if (role.equals(getString(R.string.admin), ignoreCase = true)
-                            || role.equals(getString(R.string.user), ignoreCase = true) ||
-                            role.equals(getString(R.string.assessor), ignoreCase = true)) {
-                        role = getString(R.string.assessor)
+                    if (role.equals(Enums.admin.toString(), ignoreCase = true)
+                            || role.equals(Enums.user.toString(), ignoreCase = true) ||
+                            role.equals(Enums.assessor.toString(), ignoreCase = true)) {
+                        role = Enums.assessor.toString()
                     }
                     pref?.saveSelectedUserRole(role)
 
@@ -688,29 +667,7 @@ class LoginScreenFragment : androidx.fragment.app.Fragment() {
 
         try {
 
-            val logging = HttpLoggingInterceptor()
-            logging.level = HttpLoggingInterceptor.Level.BODY
-            val httpClient = OkHttpClient.Builder()
-            httpClient.addInterceptor(logging)
-
-            httpClient.connectTimeout(10, TimeUnit.SECONDS)
-            httpClient.readTimeout(10, TimeUnit.SECONDS)
-            httpClient.writeTimeout(10, TimeUnit.SECONDS)
-
-            val gson = GsonBuilder()
-                    .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
-                    .create()
-
-            val retrofit = Retrofit.Builder()
-                    .baseUrl(Constants.base_url)
-                    .addConverterFactory(GsonConverterFactory.create(gson))
-                    .client(httpClient.build())
-
-                    .build()
-
-
-            val apis = retrofit.create(APIs::class.java)
-
+            val apis = Shared.getInstance().retroFitObject(context)
             login_call = apis.getRefreshToken(postTokenDAO.scope, postTokenDAO.grant_type, postTokenDAO.username, postTokenDAO.password, postTokenDAO.client_id, postTokenDAO.scope, postTokenDAO.refresh_token)
 
 
@@ -730,14 +687,14 @@ class LoginScreenFragment : androidx.fragment.app.Fragment() {
 
                             val applicantPersonaId = response.body().applicantPersonaId?.toIntOrNull()
                                     ?: 0
-                            if (applicantPersonaId > 0 && (response.body().role.equals(context.getString(R.string.admin), ignoreCase = true)
-                                            || response.body().role.equals(context.getString(R.string.user), ignoreCase = true))) {
-                                response.body().role = context.getString(R.string.applicant)
-                            } else if (applicantPersonaId == 0 && (response.body().role.equals(context.getString(R.string.admin), ignoreCase = true)
-                                            || response.body().role.equals(context.getString(R.string.user), ignoreCase = true))) {
-                                response.body().role = context.getString(R.string.assessor)
-                            } else if (applicantPersonaId == 0 && (response.body().role.equals(context.getString(R.string.applicant), ignoreCase = true))) {
-                                response.body().role = context.getString(R.string.applicant)
+                            if (applicantPersonaId > 0 && (response.body().role.equals(Enums.admin.toString(), ignoreCase = true)
+                                            || response.body().role.equals(Enums.user.toString(), ignoreCase = true))) {
+                                response.body().role = Enums.applicant.toString()
+                            } else if (applicantPersonaId == 0 && (response.body().role.equals(Enums.admin.toString(), ignoreCase = true)
+                                            || response.body().role.equals(Enums.user.toString(), ignoreCase = true))) {
+                                response.body().role = Enums.assessor.toString()
+                            } else if (applicantPersonaId == 0 && (response.body().role.equals(Enums.applicant.toString(), ignoreCase = true))) {
+                                response.body().role = Enums.applicant.toString()
                             }
 
                             val userDAO = UserDAO()
@@ -810,6 +767,7 @@ class LoginScreenFragment : androidx.fragment.app.Fragment() {
             httpClient.addInterceptor { chain ->
                 val original = chain.request()
                 val requestBuilder = original.newBuilder()
+                        .header("locale", Shared.getInstance().getLanguageSimpleContext(context));
                 //   .header("Content-Type ", "application/x-www-form-urlencoded")
                 val request = requestBuilder.build()
                 chain.proceed(request)
@@ -980,9 +938,9 @@ class LoginScreenFragment : androidx.fragment.app.Fragment() {
                                 val role = serviceResponse?.body()?.role
                                 ESPApplication.getInstance().user.role = role
 
-                                if (role.equals(getString(R.string.admin), ignoreCase = true)
-                                        || role.equals(getString(R.string.user), ignoreCase = true) ||
-                                        role.equals(getString(R.string.assessor), ignoreCase = true)) {
+                                if (role.equals(Enums.admin.toString(), ignoreCase = true)
+                                        || role.equals(Enums.user.toString(), ignoreCase = true) ||
+                                        role.equals(Enums.assessor.toString(), ignoreCase = true)) {
                                     stop_loading_animation()
                                     if (myList.contains(pref.language)) {
                                         if (txtenteremailpass?.text.toString() == getString(R.string.idenedinotlinkedtext))
@@ -1030,39 +988,8 @@ class LoginScreenFragment : androidx.fragment.app.Fragment() {
     private fun getApplicant(myList: List<String>) {
         start_loading_animation()
         try {
-            val logging = HttpLoggingInterceptor()
-            logging.level = HttpLoggingInterceptor.Level.BODY
-            val httpClient = OkHttpClient.Builder()
-            httpClient.addInterceptor(logging)
 
-            httpClient.addInterceptor { chain ->
-                val original = chain.request()
-                val requestBuilder = original.newBuilder()
-                        .header("Authorization", "bearer " + ESPApplication.getInstance().user.loginResponse?.access_token)
-                        .header("locale", Shared.getInstance().getLanguage(context))
-
-                val request = requestBuilder.build()
-                chain.proceed(request)
-            }
-
-            httpClient.connectTimeout(2, TimeUnit.MINUTES)
-            httpClient.readTimeout(2, TimeUnit.MINUTES)
-            httpClient.writeTimeout(2, TimeUnit.MINUTES)
-
-            val gson = GsonBuilder()
-                    .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
-                    .create()
-
-            val retrofit = Retrofit.Builder()
-                    .baseUrl(Constants.base_url)
-                    .addConverterFactory(GsonConverterFactory.create(gson))
-                    .client(httpClient.build())
-                    .build()
-
-
-            val apis = retrofit.create(APIs::class.java)
-
-
+            val apis = Shared.getInstance().retroFitObject(context)
             val labels_call = apis.Getapplicant()
 
             labels_call.enqueue(object : Callback<ApplicationProfileDAO> {

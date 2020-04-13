@@ -15,9 +15,11 @@ import com.esp.library.exceedersesp.controllers.applications.ApplicationDetailSc
 import com.esp.library.utilities.common.CustomLogs
 import com.esp.library.utilities.common.Shared
 import com.esp.library.exceedersesp.BaseActivity
+import com.esp.library.utilities.common.Enums
 import utilities.adapters.setup.applications.ListUsersApplicationsAdapter.Companion.isSubApplications
 import utilities.data.applicants.ApplicationSingleton
 import utilities.data.applicants.ApplicationsDAO
+import java.util.*
 
 class ListCardsApplicationsAdapter(private var mApplications: List<ApplicationsDAO>?, con: BaseActivity,
                                    internal var searched_text: String?, subApplications: Boolean) :
@@ -107,7 +109,7 @@ class ListCardsApplicationsAdapter(private var mApplications: List<ApplicationsD
         val definitionName = applicationsDAO?.definitionName
         val applicationNumber = applicationsDAO?.applicationNumber
         var applicationName: String? = ""
-        applicationName = when (ESPApplication.getInstance()?.user?.loginResponse?.role?.toLowerCase().equals(context?.getString(R.string.applicantsmall), ignoreCase = true)) {
+        applicationName = when (ESPApplication.getInstance()?.user?.loginResponse?.role?.toLowerCase(Locale.getDefault()).equals(Enums.applicant.toString(), ignoreCase = true)) {
             true -> ESPApplication.getInstance()?.user?.loginResponse?.name
             false -> applicationsDAO?.applicantName
         }
@@ -263,11 +265,11 @@ class ListCardsApplicationsAdapter(private var mApplications: List<ApplicationsD
     private fun appDetail(applicationsDAO: ApplicationsDAO, isResubmit: Boolean) {
         CustomLogs.displayLogs(LOG_TAG + " mApplications.getStatus(): " + applicationsDAO.status!!.toLowerCase())
 
-        val status = applicationsDAO.status!!.toLowerCase()
+        val status = applicationsDAO.status!!.toLowerCase(Locale.getDefault())
         val statusId = applicationsDAO.statusId
 
 
-        if (ESPApplication.getInstance()?.user?.loginResponse?.role?.toLowerCase().equals(context?.getString(R.string.applicantsmall), ignoreCase = true)
+        if (ESPApplication.getInstance()?.user?.loginResponse?.role?.toLowerCase(Locale.getDefault()).equals(Enums.applicant.toString(), ignoreCase = true)
                 || isSubApplications) {
             val bundle = Bundle()
             bundle.putSerializable(ApplicationsDAO.BUNDLE_KEY, applicationsDAO)

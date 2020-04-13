@@ -24,6 +24,7 @@ import com.esp.library.utilities.common.Shared
 import com.esp.library.utilities.common.SharedPreference
 import com.esp.library.exceedersesp.BaseActivity
 import com.esp.library.exceedersesp.controllers.applications.ActivityStageDetails
+import com.esp.library.utilities.common.Enums
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_feedback_form.*
 import kotlinx.android.synthetic.main.activity_stage_detail.toolbar
@@ -423,7 +424,7 @@ class FeedbackForm : BaseActivity(), FeedbackConfirmationListener {
 
                         var role=context?.getString(R.string.member)
                         if(applicationsFeedbackDAO.isAdmin)
-                            role = getString(R.string.assessor)
+                            role = Enums.assessor.toString()
 
                        /* if (role.equals(context?.getString(R.string.applicant), ignoreCase = true))
                             role = getString(R.string.member)*/

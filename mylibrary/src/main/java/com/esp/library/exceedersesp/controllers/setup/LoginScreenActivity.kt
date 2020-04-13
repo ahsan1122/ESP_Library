@@ -48,15 +48,15 @@ class LoginScreenActivity : BaseActivity(), ListPersonaDAOAdapter.RefreshToken{/
 
         if (Shared.getInstance().ReadPref("url", "base_url", context) != null) {
             Constants.base_url = Shared.getInstance().ReadPref("url", "base_url", context) + Constants.base_url_api
-        } else {
+        } /*else {
             Shared.getInstance().WritePref("url", "https://esp.exceeders.com", "base_url", context)
             Constants.base_url = Shared.getInstance().ReadPref("url", "base_url", context) + Constants.base_url_api
-        }
-        /*else {
+        }*/
+        else {
             Shared.getInstance().WritePref("url", "https://qaesp.azurewebsites.net", "base_url", context)
             //   Shared.getInstance().WritePref("url", "http://espdemo.azurewebsites.net/", "base_url", context)
             Constants.base_url = Shared.getInstance().ReadPref("url", "base_url", context) + Constants.base_url_api
-        }*/
+        }
 
        /* inAppUpdateManager = InAppUpdateManager.Builder(this, REQ_CODE_VERSION_UPDATE)
                 .resumeUpdates(true) // Resume the update, if the update was stalled. Default is true
@@ -121,35 +121,7 @@ class LoginScreenActivity : BaseActivity(), ListPersonaDAOAdapter.RefreshToken{/
     fun getSettings() {
 
         start_loading_animation()
-        val logging = HttpLoggingInterceptor()
-        logging.level = HttpLoggingInterceptor.Level.BODY
-        val httpClient = OkHttpClient.Builder()
-        httpClient.addInterceptor { chain ->
-            val original = chain.request()
-            val requestBuilder = original.newBuilder()
-            val request = requestBuilder.build()
-            chain.proceed(request)
-        }
-        if (Constants.WRITE_LOG) {
-            httpClient.addInterceptor(logging)
-        }
-
-        httpClient.connectTimeout(5, TimeUnit.MINUTES)
-        httpClient.readTimeout(5, TimeUnit.MINUTES)
-        httpClient.writeTimeout(5, TimeUnit.MINUTES)
-
-
-        /* retrofit builder and call web service*/
-        val retrofit = Retrofit.Builder()
-                .baseUrl(Constants.base_url)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(httpClient.build())
-                .build()
-
-        /* APIs Mapping respective Object*/
-        val apis = retrofit.create(APIs::class.java)
-
-
+        val apis = Shared.getInstance().retroFitObject(context)
         val call = apis.getSettings
         call.enqueue(object : Callback<SettingsDAO> {
             override fun onResponse(call: Call<SettingsDAO>, response: Response<SettingsDAO>?) {

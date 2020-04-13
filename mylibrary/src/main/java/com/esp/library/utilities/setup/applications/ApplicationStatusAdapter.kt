@@ -1,13 +1,18 @@
 package utilities.adapters.setup.applications
 
 import android.content.Context
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import com.esp.library.R
+import com.esp.library.utilities.common.Enums
+import com.esp.library.utilities.common.SharedPreference
+import java.util.*
 
 
 class ApplicationStatusAdapter(val statusList: List<String>?, con: Context)
@@ -42,7 +47,19 @@ class ApplicationStatusAdapter(val statusList: List<String>?, con: Context)
     }//End Holder Class
 
     private fun statusColor(holder: ViewHolder, status: String?) {
-        if (status!!.equals(context?.getString(R.string.new_satus), ignoreCase = true)) {
+
+
+        when(status?.toLowerCase(Locale.getDefault())) {
+            Enums.newstatus.toString()->holder.txtstatus.setBackgroundColor(ContextCompat.getColor(context!!, R.color.status_list_draft))
+            Enums.locked.toString()->holder.txtstatus.setBackgroundColor(ContextCompat.getColor(context!!, R.color.status_list_draft))
+            Enums.invited.toString()->holder.txtstatus.setBackgroundColor(ContextCompat.getColor(context!!, R.color.status_invited))
+            Enums.pending.toString()->holder.txtstatus.setBackgroundColor(ContextCompat.getColor(context!!, R.color.status_pending))
+            Enums.accepted.toString()->holder.txtstatus.setBackgroundColor(ContextCompat.getColor(context!!, R.color.status_accepted))
+            Enums.rejected.toString()->holder.txtstatus.setBackgroundColor(ContextCompat.getColor(context!!, R.color.status_rejected))
+            else->holder.txtstatus.setBackgroundColor(ContextCompat.getColor(context!!, R.color.status_pending))
+        }
+
+      /*  if (status!!.equals(context?.getString(R.string.new_satus), ignoreCase = true)) {
             holder.txtstatus.setBackgroundColor(ContextCompat.getColor(context!!, R.color.status_list_draft))
         } else if (status.equals(context?.getString(R.string.locked), ignoreCase = true)) {
             holder.txtstatus.setBackgroundColor(ContextCompat.getColor(context!!, R.color.status_list_draft))
@@ -56,7 +73,7 @@ class ApplicationStatusAdapter(val statusList: List<String>?, con: Context)
             holder.txtstatus.setBackgroundColor(ContextCompat.getColor(context!!, R.color.status_rejected))
         } else {
             holder.txtstatus.setBackgroundColor(ContextCompat.getColor(context!!, R.color.status_pending))
-        }
+        }*/
     }
 
     override fun getItemCount(): Int {
@@ -73,6 +90,7 @@ class ApplicationStatusAdapter(val statusList: List<String>?, con: Context)
     override fun getItemViewType(position: Int): Int {
         return super.getItemViewType(position)
     }
+
 
 
 }

@@ -133,7 +133,7 @@ class NavigationDrawerFragment : androidx.fragment.app.Fragment() {
         initailize(v)
 
         UpdateView()
-        //populateSpinner();
+        populateSpinner();
         fm = context?.supportFragmentManager
        /* submit_request = ESPApplication.getInstance()?.user?.loginResponse?.let { SelectOrganizationFragment.newInstance(it) }
         val ft = fm?.beginTransaction()
@@ -191,7 +191,7 @@ class NavigationDrawerFragment : androidx.fragment.app.Fragment() {
 
         splanguage?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(adapterView: AdapterView<*>, view: View, i: Int, l: Long) {
-                //changeLanguage(arrayLanguages.get(i));
+                changeLanguage(arrayLanguages.get(i));
 
             }
 
@@ -260,37 +260,7 @@ class NavigationDrawerFragment : androidx.fragment.app.Fragment() {
         try {
 
             start_loading_animation()
-            val logging = HttpLoggingInterceptor()
-            logging.level = HttpLoggingInterceptor.Level.BODY
-            val httpClient = OkHttpClient.Builder()
-            httpClient.addInterceptor(logging)
-
-            httpClient.addInterceptor { chain ->
-                val original = chain.request()
-                val requestBuilder = original.newBuilder()
-                        .header("Authorization", "bearer " + ESPApplication.getInstance()?.user?.loginResponse?.access_token)
-                        .header("locale", Shared.getInstance().getLanguage(context))
-
-                val request = requestBuilder.build()
-                chain.proceed(request)
-            }
-
-            httpClient.connectTimeout(2, TimeUnit.MINUTES)
-            httpClient.readTimeout(2, TimeUnit.MINUTES)
-            httpClient.writeTimeout(2, TimeUnit.MINUTES)
-
-            val gson = GsonBuilder()
-                    .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
-                    .create()
-
-            val retrofit = Retrofit.Builder()
-                    .baseUrl(Constants.base_url)
-                    .addConverterFactory(GsonConverterFactory.create(gson))
-                    .client(httpClient.build())
-                    .build()
-
-
-            val apis = retrofit.create(APIs::class.java)
+            val apis = Shared.getInstance().retroFitObject(context)
             val labels_call = apis.lookupInfoList
 
             labels_call.enqueue(object : Callback<List<LookupInfoListDAO>> {
@@ -406,7 +376,7 @@ class NavigationDrawerFragment : androidx.fragment.app.Fragment() {
             val mainIntent = Intent.makeRestartActivityTask(cn)
             startActivity(mainIntent)
         } else {
-            if (ESPApplication.getInstance()?.user?.loginResponse?.role?.toLowerCase().equals(getString(R.string.applicantsmall), ignoreCase = true)) {
+            if (ESPApplication.getInstance()?.user?.loginResponse?.role?.toLowerCase(Locale.getDefault()).equals(Enums.applicant.toString(), ignoreCase = true)) {
                 //   role?.text = ESPApplication.getInstance()?.user?.loginResponse?.role
             } else {
                 // role?.text = context?.resources?.getString(R.string.assessor)
@@ -584,36 +554,7 @@ class NavigationDrawerFragment : androidx.fragment.app.Fragment() {
         start_loading_animation()
 
         try {
-            val logging = HttpLoggingInterceptor()
-            logging.level = HttpLoggingInterceptor.Level.BODY
-            val httpClient = OkHttpClient.Builder()
-            httpClient.addInterceptor { chain ->
-                val original = chain.request()
-                val requestBuilder = original.newBuilder()
-                        .header("locale", Shared.getInstance()?.getLanguageSimpleContext(context))
-                        .header("Authorization", "bearer " + ESPApplication.getInstance()?.user?.loginResponse?.access_token)
-                //
-                val request = requestBuilder.build()
-                chain.proceed(request)
-            }
-            if (Constants.WRITE_LOG) {
-                httpClient.addInterceptor(logging)
-            }
-
-            /*Gson object for custom field types*/
-            val gson = GsonBuilder()
-                    .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
-                    .create()
-
-            /* retrofit builder and call web service*/
-            val retrofit = Retrofit.Builder()
-                    .baseUrl(Constants.base_url)
-                    .addConverterFactory(GsonConverterFactory.create(gson))
-                    .client(httpClient.build())
-                    .build()
-
-
-            val apis = retrofit.create(APIs::class.java)
+            val apis = Shared.getInstance().retroFitObject(context)
             val organization_call = apis.organizations
 
             organization_call.enqueue(object : Callback<List<OrganizationPersonaDao>> {
@@ -735,26 +676,7 @@ class NavigationDrawerFragment : androidx.fragment.app.Fragment() {
         start_loading_animation()
 
         try {
-
-            val logging = HttpLoggingInterceptor()
-            logging.level = HttpLoggingInterceptor.Level.BODY
-            val httpClient = OkHttpClient.Builder()
-            httpClient.addInterceptor(logging)
-
-            httpClient.connectTimeout(10, TimeUnit.SECONDS)
-            httpClient.readTimeout(10, TimeUnit.SECONDS)
-            httpClient.writeTimeout(10, TimeUnit.SECONDS)
-
-            val gson = GsonBuilder()
-                    .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
-                    .create()
-
-            val retrofit = Retrofit.Builder()
-                    .baseUrl(Constants.base_url)
-                    .addConverterFactory(GsonConverterFactory.create(gson))
-                    .client(httpClient.build())
-                    .build()
-            val apis = retrofit.create(APIs::class.java)
+            val apis = Shared.getInstance().retroFitObject(context)
 
             login_call = apis.getRefreshToken(postTokenDAO.scope, postTokenDAO.grant_type, postTokenDAO.username, postTokenDAO.password, postTokenDAO.client_id, postTokenDAO.scope, postTokenDAO.refresh_token)
 
@@ -779,7 +701,7 @@ class NavigationDrawerFragment : androidx.fragment.app.Fragment() {
                             ESPApplication.getInstance().filter = Shared.getInstance().ResetApplicationFilter(context)
 
 
-                            ESPApplication.getInstance().filter.isMySpace = !response.body().role?.toLowerCase().equals(getString(R.string.applicantsmall), ignoreCase = true)
+                            ESPApplication.getInstance().filter.isMySpace = !response.body().role?.toLowerCase(Locale.getDefault()).equals(Enums.applicant.toString(), ignoreCase = true)
 
 
                             Shared.getInstance().WritePref("Uname", postTokenDAO.username, "login_info", context)

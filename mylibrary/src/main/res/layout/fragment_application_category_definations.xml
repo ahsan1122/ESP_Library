@@ -123,6 +123,7 @@
             android:layout_marginEnd="@dimen/_10sdp"
             android:layout_toStartOf="@+id/ivfilter"
             android:drawableLeft="@drawable/search_icon"
+            android:drawableStart="@drawable/search_icon"
             android:drawablePadding="@dimen/_5sdp"
             android:hint="@string/search_"
             android:maxLines="1"
@@ -141,6 +142,7 @@
             android:layout_height="@dimen/_20sdp"
             android:background="?attr/selectableItemBackground"
             android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:src="@drawable/filter" />
 

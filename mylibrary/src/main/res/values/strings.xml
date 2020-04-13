@@ -85,14 +85,14 @@
     <string name="filter_error">Please select atleast one status filter to proceed</string>
     <string name="definition_filter_error">Please select atleast one definition filter to proceed</string>
     <string name="reset">Reset</string>
-    <string name="invited" translatable="false">Invited</string>
-    <string name="attachfile" translatable="false">Attach File</string>
-    <string name="new_satus" translatable="false">New</string>
-    <string name="under_satus" translatable="false">Pending</string>
-    <string name="approved" translatable="false">Approved</string>
-    <string name="rejected" translatable="false">Rejected</string>
+    <string name="invited">Invited</string>
+    <string name="attachfile">Attach File</string>
+    <string name="new_satus">New</string>
+    <string name="under_satus">Pending</string>
+    <string name="approved">Approved</string>
+    <string name="rejected">Rejected</string>
     <string name="rejected_enum" translatable="false">4</string>
-    <string name="addcommenttoproceed" translatable="false">Please add comment to proceed</string>
+    <string name="addcommenttoproceed">Please add comment to proceed</string>
     <string name="enterprise_submission_platform">Enterprise Submission Platform</string>
     <string name="app_version" translatable="false">0.3.1</string>
     <string name="no_cat_error">No Category found!</string>
@@ -117,50 +117,50 @@
     <string name="wasnotsubmitted">was not submitted yet.</string>
     <string name="save_draft_ok">SAVE AS DRAFT</string>
     <string name="discard">Discard</string>
-    <string name="assessor" translatable="false">Assessor</string>
-    <string name="applicant" translatable="false">Applicant</string>
-    <string name="applicants" translatable="false">Applicants</string>
-    <string name="applications" translatable="false">Applications</string>
-    <string name="application" translatable="false">Application</string>
-    <string name="applicantcolon" translatable="false">Applicant:</string>
-    <string name="applicantsmall" translatable="false">applicant</string>
-    <string name="yesdelete" translatable="false">Yes, Delete</string>
+    <string name="assessor">Assessor</string>
+    <string name="applicant">Applicant</string>
+    <string name="applicants">Applicants</string>
+    <string name="applications">Applications</string>
+    <string name="application">Application</string>
+    <string name="applicantcolon">Applicant:</string>
+    <string name="applicantsmall">applicant</string>
+    <string name="yesdelete">Yes, Delete</string>
     <string name="expired">Authorization has been denied for this request.</string>
     <string name="criterias">Criterias</string>
     <string name="criteria">Criteria</string>
     <string name="durationcolon">Duration:</string>
     <string name="ownercolon">Owner:</string>
     <string name="criteria_feedback">Criteria Feedback</string>
-    <string name="pending" translatable="false">Pending</string>
-    <string name="inprogress" translatable="false">In Progress</string>
-    <string name="current" translatable="false">Current</string>
-    <string name="accepted" translatable="false">Accepted</string>
+    <string name="pending">Pending</string>
+    <string name="inprogress">In Progress</string>
+    <string name="current">Current</string>
+    <string name="accepted">Accepted</string>
     <string name="accepted_enum" translatable="false">3</string>
-    <string name="acceptedsmall" translatable="false">accepted</string>
-    <string name="logintolink" translatable="false">Login to link</string>
-    <string name="idenedinotlinkedtext" translatable="false">Your IDENEDI account is not linked with ESP. To link your IDENEDI account with ESP please login below with ESP \'Exceeders\' credentials or contact administration.</string>
+    <string name="acceptedsmall">accepted</string>
+    <string name="logintolink">Login to link</string>
+    <string name="idenedinotlinkedtext">Your IDENEDI account is not linked with ESP. To link your IDENEDI account with ESP please login below with ESP \'Exceeders\' credentials or contact administration.</string>
     <string name="please_add_comment">Please add comment</string>
     <string name="resubmitapp">Do you want to resubmit</string>
     <string name="data_available">data available!</string>
     <string name="edit_comments">Edit Comment</string>
     <string name="save">Save</string>
-    <string name="resubmit" translatable="false">Resubmit</string>
-    <string name="resubmitapplication" translatable="false">Resubmit Application</string>
-    <string name="addcomment" translatable="false">Add comment</string>
-    <string name="areyousure" translatable="false">Are you sure you want to delete</string>
+    <string name="resubmit">Resubmit</string>
+    <string name="resubmitapplication">Resubmit Application</string>
+    <string name="addcomment">Add comment</string>
+    <string name="areyousure">Are you sure you want to delete</string>
     <string name="cancel">Cancel</string>
     <string name="cancelled">Cancelled</string>
-    <string name="cancelled_enum">5</string>
+    <string name="cancelled_enum" translatable="false">5</string>
     <string name="reject_comments_hints_one_comment">Please provide at least one comment for the</string>
-    <string name="beforereject" translatable="false">before reject the</string>
+    <string name="beforereject">before reject the</string>
     <string name="reject_title">Are you sure you want to reject this criteria?</string>
-    <string name="accept_title" translatable="false">Are you sure you want to accept this criteria?</string>
+    <string name="accept_title">Are you sure you want to accept this criteria?</string>
     <string name="add_comment">Add Comment</string>
     <string name="yourcomment">Your comment</string>
     <string name="edit_comment">Edit Comment</string>
     <string name="post_comment">Post Comment</string>
     <string name="edit_feedback">Edit feedback</string>
-    <string name="edit" translatable="false">Edit</string>
+    <string name="edit">Edit</string>
     <string name="no_criteria_feedback_comments">There is no criteria feedback yet.</string>
 
 
@@ -170,9 +170,9 @@
     <string name="hidden">hidden</string>
     <string name="shown">shown</string>
     <string name="all">All</string>
-    <string name="all_enum">0</string>
+    <string name="all_enum" translatable="false">0</string>
     <string name="member">Member</string>
-    <string name="allwithfeedback">ALLWITHFEEDBACK</string>
+    <string name="allwithfeedback" translatable="false">ALLWITHFEEDBACK</string>
     <string name="alert">alert</string>
     <string name="ok">Ok</string>
     <string name="submitrequest">Submit Request</string>
@@ -205,11 +205,11 @@
     <string name="admin">Admin</string>
     <string name="user">User</string>
     <string name="adminsmall">admin</string>
-    <string name="accept" translatable="false">Accept</string>
-    <string name="actioncenter" translatable="false">Action center</string>
-    <string name="approve" translatable="false">Approve</string>
-    <string name="clearfilter" translatable="false">Clear Filter</string>
-    <string name="applyfilter" translatable="false">Apply Filter</string>
+    <string name="accept">Accept</string>
+    <string name="actioncenter">Action center</string>
+    <string name="approve">Approve</string>
+    <string name="clearfilter">Clear Filter</string>
+    <string name="applyfilter">Apply Filter</string>
     <string name="reject">Reject</string>
     <string name="pleasewait">Please wait...</string>
     <string name="defaultt">Default</string>
@@ -223,17 +223,17 @@
     <string name="selectafile">Select a file</string>
     <string name="pleasetryagain">Please try again</string>
     <string name="sizeshouldbelessthen">Size should be less then</string>
-    <string name="mb" translatable="false">MB</string>
+    <string name="mb">MB</string>
     <string name="error">Error</string>
     <string name="draft">draft</string>
     <string name="draftcaps">Draft</string>
     <string name="profile">Profile</string>
     <string name="submissionrequest">Submission Requests</string>
     <string name="version">Version: </string>
-    <string name="neww" translatable="false">new</string>
-    <string name="rejectedsmall" translatable="false">rejected</string>
+    <string name="neww">new</string>
+    <string name="rejectedsmall">rejected</string>
     <string name="successfailed">Success failed</string>
-    <string name="pendingsmall" translatable="false">pending</string>
+    <string name="pendingsmall">pending</string>
     <string name="valuebetween">Value must be between</string>
     <string name="and">and</string>
     <string name="value">Value</string>
@@ -254,9 +254,9 @@
     <string name="acceptcriteri">ACCEPT CRITERIA</string>
     <string name="rejectcriteria">REJECT CRITERIA</string>
     <string name="gender">gender</string>
-    <string name="active" translatable="false">active</string>
-    <string name="activecaps" translatable="false">Active</string>
-    <string name="reassigned" translatable="false">ReAssigned</string>
+    <string name="active">active</string>
+    <string name="activecaps">Active</string>
+    <string name="reassigned">ReAssigned</string>
     <string name="completed">completed</string>
     <string name="complete">complete</string>
     <string name="completedcaps">Completed</string>
@@ -277,78 +277,79 @@
     <string name="english" translatable="false">English</string>
     <string name="arabic" translatable="false">Arabic</string>
 
-    <string name="completeprofile" translatable="false">Complete your profile</string>
-    <string name="completeprofiletext" translatable="false">In order to submit application, you need to complete your profile.</string>
-    <string name="continuee" translatable="false">Continue</string>
-    <string name="next" translatable="false">Next</string>
-    <string name="addyourpicture" translatable="false">Add your picture</string>
-    <string name="addyourpicturetext" translatable="false">Please upload your picture and click next</string>
-    <string name="fullnamee" translatable="false">Full Name</string>
-    <string name="lastupdatedon" translatable="false">Last Updated on</string>
-    <string name="camera" translatable="false">Camera</string>
-    <string name="gallery" translatable="false">Gallery</string>
-    <string name="addmore" translatable="false">Add more</string>
-    <string name="name" translatable="false">Name</string>
-    <string name="delete" translatable="false">Delete</string>
-    <string name="deleterequest" translatable="false">Delete Request</string>
-    <string name="accounts" translatable="false">Accounts</string>
-    <string name="takemetoprofile" translatable="false">Take me to profile</string>
-    <string name="employee" translatable="false">Employee</string>
-    <string name="additemlist" translatable="false">Add item list</string>
-    <string name="searchlookupitem" translatable="false">Search lookup item...</string>
-    <string name="emptyitemlist" translatable="false">Uh oh you don\'t have any list items</string>
-    <string name="details" translatable="false">Details</string>
-    <string name="submissiondetails" translatable="false">Submission Details</string>
-    <string name="requestdetails" translatable="false">Request Details</string>
-    <string name="subapplications" translatable="false">Sub Applications</string>
-    <string name="subdefinition" translatable="false">Sub Definition:</string>
-    <string name="norecord" translatable="false">No record found!</string>
-    <string name="requestnumber" translatable="false">Request #:</string>
-    <string name="confirmfeedback" translatable="false">Confirm feedback</string>
-    <string name="rejectfeedback" translatable="false">Confirm Rejection</string>
-    <string name="confirmacceptance" translatable="false">Confirm Acceptance</string>
-    <string name="confirm" translatable="false">Confirm</string>
-    <string name="selectitemfeedbacktext" translatable="false">Please select the item you want to make visible to employee</string>
-    <string name="reasonfordecline" translatable="false">Reason for the decline:</string>
-    <string name="categorycolon" translatable="false">Category:</string>
-    <string name="idenediid" translatable="false">iDENEDi ID:</string>
-    <string name="submittedoncolon" translatable="false">Submitted On:</string>
-    <string name="pendingfor" translatable="false">Pending For:</string>
-    <string name="submitted" translatable="false">Submitted</string>
-    <string name="submissions" translatable="false">Submissions</string>
-    <string name="submissionszero" translatable="false">Submissions (0)</string>
-    <string name="approvalstages" translatable="false">Approval Stages</string>
-    <string name="approvalstage" translatable="false">Approval Stage</string>
-    <string name="requestcolon" translatable="false">Request:</string>
-    <string name="selectapplication" translatable="false">Select Application</string>
-    <string name="linkdefinition" translatable="false">Link Definition</string>
-    <string name="definition_name" translatable="false">Definition Name</string>
-    <string name="submissionsallowed" translatable="false">Submissions allowed</string>
-    <string name="submissionsstopped" translatable="false">Submissions Stopped</string>
-    <string name="viewapplications" translatable="false">View Applications</string>
-    <string name="stopsubmission" translatable="false">Stop Submission</string>
-    <string name="requesttoaction" translatable="false">Request to action</string>
-    <string name="seeall" translatable="false">See All</string>
-    <string name="allowsubmission" translatable="false">Allow Submission</string>
-    <string name="stopsubmissiontext" translatable="false">Are you sure you want to stop allowing submissions for this definition?</string>
-    <string name="allowsubmissiontext" translatable="false">Are you sure you want to allow submissions for this definition?</string>
-    <string name="moreinformation" translatable="false">More Information</string>
-    <string name="lessinformation" translatable="false">Less Information</string>
-    <string name="formisempty" translatable="false">Form is empty</string>
-    <string name="form" translatable="false">Form</string>
-    <string name="reassign" translatable="false">Reassign</string>
-    <string name="selectusers" translatable="false">Select User</string>
-    <string name="nousersfound" translatable="false">No Users found!</string>
-    <string name="nofilesattached" translatable="false">No Files Attached</string>
-    <string name="attachedfiles" translatable="false">Attached Files</string>
+    <string name="completeprofile">Complete your profile</string>
+    <string name="completeprofiletext">In order to submit application, you need to complete your profile.</string>
+    <string name="continuee">Continue</string>
+    <string name="next">Next</string>
+    <string name="addyourpicture">Add your picture</string>
+    <string name="addyourpicturetext">Please upload your picture and click next</string>
+    <string name="fullnamee">Full Name</string>
+    <string name="lastupdatedon">Last Updated on</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="addmore">Add more</string>
+    <string name="name">Name</string>
+    <string name="delete">Delete</string>
+    <string name="deleterequest">Delete Request</string>
+    <string name="accounts">Accounts</string>
+    <string name="takemetoprofile">Take me to profile</string>
+    <string name="employee">Employee</string>
+    <string name="additemlist">Add item list</string>
+    <string name="searchlookupitem">Search lookup item...</string>
+    <string name="emptyitemlist">Uh oh you don\'t have any list items</string>
+    <string name="details">Details</string>
+    <string name="submissiondetails">Submission Details</string>
+    <string name="requestdetails">Request Details</string>
+    <string name="subapplications">Sub Applications</string>
+    <string name="subdefinition">Sub Definition:</string>
+    <string name="norecord">No record found!</string>
+    <string name="requestnumber">Request #:</string>
+    <string name="confirmfeedback">Confirm feedback</string>
+    <string name="rejectfeedback">Confirm Rejection</string>
+    <string name="confirmacceptance">Confirm Acceptance</string>
+    <string name="confirm">Confirm</string>
+    <string name="selectitemfeedbacktext">Please select the item you want to make visible to employee</string>
+    <string name="reasonfordecline">Reason for the decline:</string>
+    <string name="categorycolon">Category:</string>
+    <string name="idenediid">iDENEDi ID:</string>
+    <string name="submittedoncolon">Submitted On:</string>
+    <string name="pendingfor">Pending For:</string>
+    <string name="submitted">Submitted</string>
+    <string name="submissions">Submissions</string>
+    <string name="submissionszero">Submissions (0)</string>
+    <string name="approvalstages">Approval Stages</string>
+    <string name="approvalstage">Approval Stage</string>
+    <string name="requestcolon">Request:</string>
+    <string name="selectapplication">Select Application</string>
+    <string name="linkdefinition">Link Definition</string>
+    <string name="definition_name">Definition Name</string>
+    <string name="submissionsallowed">Submissions allowed</string>
+    <string name="submissionsstopped">Submissions Stopped</string>
+    <string name="viewapplications">View Applications</string>
+    <string name="stopsubmission">Stop Submission</string>
+    <string name="requesttoaction">Request to action</string>
+    <string name="seeall">See All</string>
+    <string name="allowsubmission">Allow Submission</string>
+    <string name="stopsubmissiontext">Are you sure you want to stop allowing submissions for this definition?</string>
+    <string name="allowsubmissiontext">Are you sure you want to allow submissions for this definition?</string>
+    <string name="moreinformation">More Information</string>
+    <string name="lessinformation">Less Information</string>
+    <string name="formisempty">Form is empty</string>
+    <string name="form">Form</string>
+    <string name="reassign">Reassign</string>
+    <string name="selectusers">Select User</string>
+    <string name="nousersfound">No Users found!</string>
+    <string name="nofilesattached">No Files Attached</string>
+    <string name="attachedfiles">Attached Files</string>
 
 
-    <string name="suboldestfirst" translatable="false">Submitted: Oldest First</string>
-    <string name="assignoldestfirst" translatable="false">Assigned: Oldest First</string>
-    <string name="subnewestfirst" translatable="false">Submitted: Newest First</string>
-    <string name="assignnewestfirst" translatable="false">Assigned: Newest First</string>
-    <string name="duefirst" translatable="false">Due: First</string>
-    <string name="duelast" translatable="false">Due: Last</string>
+    <string name="suboldestfirst">Submitted: Oldest First</string>
+    <string name="assignoldestfirst">Assigned: Oldest First</string>
+    <string name="subnewestfirst">Submitted: Newest First</string>
+    <string name="assignnewestfirst">Assigned: Newest First</string>
+    <string name="duefirst">Due: First</string>
+    <string name="duelast">Due: Last</string>
+    <string name="profile_error_ok">Take me to my profile</string>
 
 
 </resources>

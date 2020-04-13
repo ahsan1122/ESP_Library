@@ -2,9 +2,14 @@ package com.exceedersesp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
+
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.esp.library.exceedersesp.BaseActivity;
 import com.esp.library.exceedersesp.ESPApplication;
+import com.esp.library.exceedersesp.controllers.applications.ApplicationActivityTabs;
 import com.esp.library.utilities.common.Constants;
 import com.esp.library.utilities.common.SharedPreference;
 
@@ -18,10 +23,11 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
 
+
        /* setInstance();
         setLabels();*/
 
-   /*     FragmentManager supportFragmentManager = getSupportFragmentManager();
+        /*FragmentManager supportFragmentManager = getSupportFragmentManager();
         ApplicationActivityTabs submit_request = ApplicationActivityTabs.Companion.newInstance();
         FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.request_fragment, submit_request);

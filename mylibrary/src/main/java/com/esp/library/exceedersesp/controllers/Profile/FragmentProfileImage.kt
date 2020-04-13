@@ -142,8 +142,8 @@ class FragmentProfileImage : androidx.fragment.app.Fragment(), Itemclick {
             val bn = Bundle()
             bn.putString("heading", getString(R.string.logineithidenedi))
 
-               bn.putString("url", "https://app.idenedi.com/app_permission/?response_type=code&client_id=" + pref?.getidenediClientId() + "&redirect_uri=https://esp.exceeders.com/login")
-           // bn.putString("url", "https://idenedi-prod-stag.azurewebsites.net/app_permission/?response_type=code&client_id=" + pref?.getidenediClientId() + "&redirect_uri=https://qaesp.azurewebsites.net/login")
+           //    bn.putString("url", "https://app.idenedi.com/app_permission/?response_type=code&client_id=" + pref?.getidenediClientId() + "&redirect_uri=https://esp.exceeders.com/login")
+            bn.putString("url", "https://idenedi-prod-stag.azurewebsites.net/app_permission/?response_type=code&client_id=" + pref?.getidenediClientId() + "&redirect_uri=https://qaesp.azurewebsites.net/login")
             bn.putBoolean("isIdenedi", true)
             Shared.getInstance().callIntent(WebViewScreenActivity::class.java, context as Activity?, bn)
         }
@@ -372,6 +372,7 @@ class FragmentProfileImage : androidx.fragment.app.Fragment(), Itemclick {
         adapter = context?.let { SectionListAdapter(sectionsFinalArray, it, this) }
         view.app_list_sections.adapter = adapter
     }
+
 
 
     private fun choosePhotoFromGallary() {

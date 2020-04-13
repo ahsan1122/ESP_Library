@@ -201,20 +201,20 @@ public class EdittextItem {
 
         try {
             if (pref.getLanguage().equalsIgnoreCase("ar")) {
-                holder.tilFieldLabel.setGravity(Gravity.RIGHT);
-                holder.etValue.setGravity(Gravity.RIGHT);
+                holder.tilFieldLabel.setGravity(Gravity.END);
+                holder.etValue.setGravity(Gravity.END);
                 if (isViewOnly) {
-                    holder.tValueLabel.setGravity(Gravity.RIGHT);
-                    holder.tValue.setGravity(Gravity.RIGHT);
+                    holder.tValueLabel.setGravity(Gravity.END);
+                    holder.tValue.setGravity(Gravity.END);
                 }
 
             } else {
 
-                holder.tilFieldLabel.setGravity(Gravity.LEFT);
-                holder.etValue.setGravity(Gravity.LEFT);
+                holder.tilFieldLabel.setGravity(Gravity.START);
+                holder.etValue.setGravity(Gravity.START);
                 if (isViewOnly) {
-                    holder.tValueLabel.setGravity(Gravity.LEFT);
-                    holder.tValue.setGravity(Gravity.LEFT);
+                    holder.tValueLabel.setGravity(Gravity.START);
+                    holder.tValue.setGravity(Gravity.START);
                 }
 
             }

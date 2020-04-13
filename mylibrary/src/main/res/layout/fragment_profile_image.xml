@@ -75,7 +75,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginEnd="@dimen/_2sdp"
             android:layout_alignParentStart="true"
-            android:layout_toStartOf="@+id/profile_image"
+            android:maxWidth="@dimen/_230sdp"
             android:textColor="@android:color/black"
             android:textSize="@dimen/_20ssp"
             custom:customfont="heavy" />
@@ -100,7 +100,7 @@
             android:layout_below="@+id/etxtusername"
             android:layout_toEndOf="@+id/txtemail"
             android:layout_marginStart="@dimen/_5sdp"
-            android:layout_toStartOf="@+id/profile_image"
+            android:maxWidth="@dimen/_180sdp"
             android:textColor="@color/black"
             android:textSize="@dimen/_15ssp"
             custom:customfont="regular" />

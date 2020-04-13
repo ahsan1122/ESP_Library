@@ -342,7 +342,7 @@ class UserSubApplicationsActivity : BaseActivity() {
         app_list?.visibility = View.GONE
         no_subapplication_available_div?.visibility = View.VISIBLE
 
-        if (ESPApplication.getInstance().user.loginResponse?.role?.toLowerCase().equals(context?.getString(R.string.applicantsmall), ignoreCase = true)) {
+        if (ESPApplication.getInstance().user.loginResponse?.role?.toLowerCase(Locale.getDefault()).equals(Enums.assessor.toString(), ignoreCase = true)) {
             add_btn?.visibility = View.VISIBLE
             detail_text?.visibility = View.VISIBLE
         } else {
@@ -354,7 +354,7 @@ class UserSubApplicationsActivity : BaseActivity() {
 
     fun GetProfileStatus() {
 
-        if (!ESPApplication.getInstance().user.loginResponse?.role?.toLowerCase().equals(context?.getString(R.string.applicantsmall), ignoreCase = true)) {
+        if (!ESPApplication.getInstance().user.loginResponse?.role?.toLowerCase(Locale.getDefault()).equals(Enums.assessor.toString(), ignoreCase = true)) {
             stop_loading_animation()
             return
         }

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.TextView
+import com.esp.library.R
 import com.esp.library.exceedersesp.ESPApplication
 import com.esp.library.utilities.common.Shared
 import com.esp.library.exceedersesp.fragments.applications.UsersApplicationsFragment
@@ -16,10 +17,7 @@ import kotlinx.android.synthetic.main.activity_main_applications_tabs.*
 import com.esp.library.utilities.customcontrols.CustomViewPager
 import com.esp.library.utilities.customcontrols.DisplayUtils
 import com.esp.library.utilities.customcontrols.myBadgeView
-import com.esp.library.exceedersesp.controllers.applications.AddApplicationsActivity
 import java.util.*
-import android.R
-import android.app.Activity
 
 
 class ApplicationActivityTabs : androidx.fragment.app.Fragment() {
@@ -39,35 +37,35 @@ class ApplicationActivityTabs : androidx.fragment.app.Fragment() {
 
     @SuppressLint("RestrictedApi")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val v = inflater.inflate(com.esp.library.R.layout.activity_main_applications_tabs, container, false)
+        val v = inflater.inflate(R.layout.activity_main_applications_tabs, container, false)
 
-        viewPager = v.findViewById(com.esp.library.R.id.viewpager)
+        viewPager = v.findViewById(R.id.viewpager)
 
         //    add_account = v.findViewById(R.id.addaccount)
         setupViewPager(viewPager!!)
-        tabLayout = v.findViewById(com.esp.library.R.id.tabs)
+        tabLayout = v.findViewById(R.id.tabs)
         tabLayout?.setupWithViewPager(viewPager)
         viewPager?.setPagingEnabled(false);
         //if (ESPApplication.getInstance()?.user?.loginResponse?.role?.toLowerCase() == getString(R.string.applicantsmall)) {
-            open = getString(com.esp.library.R.string.opencaps)
-            closed = getString(com.esp.library.R.string.closed)
+            open = getString(R.string.opencaps)
+            closed = getString(R.string.closed)
         /*} else {
             open = getString(R.string.pending)
             closed = getString(R.string.all)
         }*/
 
-        val tab1 = LayoutInflater.from(context).inflate(com.esp.library.R.layout.custom_tab_count, null) as RelativeLayout
-        val tab_text_1 = tab1.findViewById<View>(com.esp.library.R.id.tab_text) as TextView
+        val tab1 = LayoutInflater.from(context).inflate(R.layout.custom_tab_count, null) as RelativeLayout
+        val tab_text_1 = tab1.findViewById<View>(R.id.tab_text) as TextView
         tab_text_1.text = open
         tabLayout?.getTabAt(0)?.setCustomView(tab1)
-        val badge1 = activity?.let { myBadgeView(it, tab1.findViewById(com.esp.library.R.id.tab_badge)) }
+        val badge1 = activity?.let { myBadgeView(it, tab1.findViewById(R.id.tab_badge)) }
         badge1?.updateTabBadge(0)
 
-        val tab2 = LayoutInflater.from(context).inflate(com.esp.library.R.layout.custom_tab_count, null) as RelativeLayout
-        val tab_text_2 = tab2.findViewById<View>(com.esp.library.R.id.tab_text) as TextView
+        val tab2 = LayoutInflater.from(context).inflate(R.layout.custom_tab_count, null) as RelativeLayout
+        val tab_text_2 = tab2.findViewById<View>(R.id.tab_text) as TextView
         tab_text_2.text = closed
         tabLayout?.getTabAt(1)?.setCustomView(tab2)
-        val badge2 = activity?.let { myBadgeView(it, tab2.findViewById(com.esp.library.R.id.tab_badge)) }
+        val badge2 = activity?.let { myBadgeView(it, tab2.findViewById(R.id.tab_badge)) }
         //set the badge for the tab
         badge2?.updateTabBadge(count)
 
@@ -83,12 +81,12 @@ class ApplicationActivityTabs : androidx.fragment.app.Fragment() {
 
         addaccount?.setOnClickListener { view ->
             val manager = fragmentManager
-            if (ESPApplication.getInstance().user.profileStatus == null || ESPApplication.getInstance().user.profileStatus!!.equals(getString(com.esp.library.R.string.profile_complete), ignoreCase = true)) {
+            if (ESPApplication.getInstance().user.profileStatus == null || ESPApplication.getInstance().user.profileStatus!!.equals(getString(R.string.profile_complete), ignoreCase = true)) {
                 Shared.getInstance().callIntentWithResult(AddApplicationsActivity::class.java, activity, null, 2)
-            } else if (ESPApplication.getInstance().user.profileStatus!!.equals(getString(com.esp.library.R.string.profile_incomplete), ignoreCase = true)) {
-                Shared.getInstance().showAlertProfileMessage(getString(com.esp.library.R.string.profile_error_heading), getString(com.esp.library.R.string.profile_error_desc), activity)
-            } else if (ESPApplication.getInstance().user.profileStatus!!.equals(getString(com.esp.library.R.string.profile_incomplete_admin), ignoreCase = true)) {
-                Shared.getInstance().showAlertProfileMessage(getString(com.esp.library.R.string.profile_error_heading), getString(com.esp.library.R.string.profile_error_desc_admin), activity)
+            } else if (ESPApplication.getInstance().user.profileStatus!!.equals(getString(R.string.profile_incomplete), ignoreCase = true)) {
+                Shared.getInstance().showAlertProfileMessage(getString(R.string.profile_error_heading), getString(R.string.profile_error_desc), activity)
+            } else if (ESPApplication.getInstance().user.profileStatus!!.equals(getString(R.string.profile_incomplete_admin), ignoreCase = true)) {
+                Shared.getInstance().showAlertProfileMessage(getString(R.string.profile_error_heading), getString(R.string.profile_error_desc_admin), activity)
             }
         }
 
@@ -122,8 +120,8 @@ class ApplicationActivityTabs : androidx.fragment.app.Fragment() {
     private fun setupViewPager(viewPager: androidx.viewpager.widget.ViewPager) {
         val adapter = fragmentManager?.let { ViewPagerAdapter(it) }
         // if (ESPApplication.getInstance()?.user?.loginResponse?.role?.toLowerCase() == getString(R.string.applicantsmall)) {
-        adapter?.addFragment(UsersApplicationsFragment.newInstance("open"), getString(com.esp.library.R.string.opencaps))
-        adapter?.addFragment(UsersApplicationsFragment.newInstance("closed"), getString(com.esp.library.R.string.closed))
+        adapter?.addFragment(UsersApplicationsFragment.newInstance(getString(R.string.open)), getString(R.string.opencaps))
+        adapter?.addFragment(UsersApplicationsFragment.newInstance(getString(R.string.closedsmall)), getString(R.string.closed))
         /*} else {
             adapter?.addFragment(UsersApplicationsFragment.newInstance("pending"), getString(R.string.pending))
             adapter?.addFragment(UsersApplicationsFragment.newInstance("all"), getString(R.string.all))

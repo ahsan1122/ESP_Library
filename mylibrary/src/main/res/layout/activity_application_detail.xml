@@ -120,7 +120,7 @@
 
                     <com.esp.library.utilities.customcontrols.BodyText
                         android:id="@+id/txtdetailrowtext"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/details"
                         android:layout_centerVertical="true"
@@ -263,13 +263,13 @@
 
                 <LinearLayout
                     android:id="@+id/llstages"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <com.esp.library.utilities.customcontrols.BodyText
                         android:id="@+id/txtapprovalStages"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/approvalstages"
                         android:layout_marginTop="@dimen/_7sdp"

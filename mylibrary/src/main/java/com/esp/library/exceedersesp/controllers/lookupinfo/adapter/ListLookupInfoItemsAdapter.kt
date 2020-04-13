@@ -16,6 +16,7 @@ import com.esp.library.utilities.common.Shared
 import com.esp.library.utilities.common.SharedPreference
 import com.esp.library.exceedersesp.BaseActivity
 import com.esp.library.exceedersesp.controllers.lookupinfo.LookupItemDetail
+import com.esp.library.utilities.common.Enums
 import org.json.JSONException
 import org.json.JSONObject
 import utilities.data.applicants.dynamics.DynamicFormValuesDAO
@@ -63,7 +64,7 @@ class ListLookupInfoItemsAdapter(lookupInfoList: List<DynamicFormValuesDAO>, int
         val dynamicFormValuesDAO = lookupInfoList[position]
         holder.txttitle.text = dynamicFormValuesDAO.value
 
-        if (isShowEmployeeName && !ESPApplication.getInstance().user.loginResponse?.role?.toLowerCase().equals(context.getString(R.string.applicantsmall), ignoreCase = true)) {
+        if (isShowEmployeeName && !ESPApplication.getInstance().user.loginResponse?.role?.toLowerCase(Locale.getDefault()).equals(Enums.applicant.toString(), ignoreCase = true)) {
             holder.txtemployeename.visibility = View.VISIBLE
             holder.txtemployee.visibility = View.VISIBLE
             holder.txtemployeename.text = employeeName

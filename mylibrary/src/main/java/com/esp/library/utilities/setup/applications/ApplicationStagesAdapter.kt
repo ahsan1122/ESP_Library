@@ -16,6 +16,7 @@ import com.esp.library.R
 import com.esp.library.utilities.common.Shared
 import com.esp.library.utilities.common.SharedPreference
 import com.esp.library.exceedersesp.controllers.applications.ActivityStageDetails
+import com.esp.library.utilities.common.Enums
 import com.esp.library.utilities.setup.applications.ApplicationCriteriaAdapter
 import com.google.gson.Gson
 import utilities.data.applicants.dynamics.DynamicFormSectionFieldDAO
@@ -114,7 +115,7 @@ class ApplicationStagesAdapter(iscomingfromAssessor: Boolean, val stagesList: Mu
                 holder.rlaccepreject.visibility = View.GONE
 
             val actualResponse = Gson().fromJson(actualResponseJson, DynamicResponseDAO::class.java)
-            if (actualResponse.applicationStatus.equals(context.getString(R.string.rejected), ignoreCase = true)) // rejected
+            if (actualResponse.applicationStatus.equals(Enums.rejected.toString(), ignoreCase = true)) // rejected
                 holder.acceptedontext.text = context.getString(R.string.rejectedon)
 
 
@@ -184,9 +185,9 @@ class ApplicationStagesAdapter(iscomingfromAssessor: Boolean, val stagesList: Mu
             // if (!dynamicStagesDAO.status.equals(context.getString(R.string.locked), ignoreCase = true)) {
             //  if (dynamicStagesDAO.criteriaList!!.size > 0) {
 
-            if (!dynamicStagesDAO.status.equals(context.getString(R.string.locked), ignoreCase = true)) {
-                if (!dynamicStagesDAO.type.equals(context.getString(R.string.link), ignoreCase = true)) {
-                    if (holder.txtstatus.text != context.getString(R.string.locked)) {
+            if ((!dynamicStagesDAO.status.equals(Enums.locked.toString(), ignoreCase = true))) {
+                if (!dynamicStagesDAO.type.equals(Enums.link.toString(), ignoreCase = true)) {
+                    if (holder.txtstatus.text != Enums.locked.toString()) {
                         val intent = Intent(context, ActivityStageDetails::class.java)
                         intent.putExtra("dynamicStagesDAO", dynamicStagesDAO)
                         intent.putExtra("actualResponseJson", actualResponseJson)
@@ -230,7 +231,7 @@ class ApplicationStagesAdapter(iscomingfromAssessor: Boolean, val stagesList: Mu
     }
 
     private fun setStatusColor(holder: ActivitiesList, dynamicStagesDAO: DynamicStagesDAO, position: Int) {
-        var status = dynamicStagesDAO.status?.toLowerCase()
+        var status = dynamicStagesDAO.status?.toLowerCase(Locale.getDefault())
         val actualResponseJson = Gson().fromJson(actualResponseJson, DynamicResponseDAO::class.java)
         //  holder.lldetail.setBackgroundResource(R.drawable.draw_bg_white)
 
@@ -244,71 +245,45 @@ class ApplicationStagesAdapter(iscomingfromAssessor: Boolean, val stagesList: Mu
             return
         }
         holder.txtstatus.setBackgroundResource(R.drawable.status_background)
-        val drawable = holder.txtstatus.getBackground() as GradientDrawable
-        when (status) {
-            context.getString(R.string.invited) // Invited
+        val drawable = holder.txtstatus.background as GradientDrawable
+
+
+        when (status.toLowerCase(Locale.getDefault())) {
+            Enums.invited.toString() // Invited
             -> {
                 holder.txtstatus.setTextColor(ContextCompat.getColor(context, R.color.status_invited))
                 holder.txtline.setBackgroundColor(ContextCompat.getColor(context, R.color.status_invited))
                 drawable.setColor(ContextCompat.getColor(context, R.color.status_invited_background))
             }
-            context.getString(R.string.neww) // New
+            Enums.newstatus.toString() // New
             -> {
                 holder.txtstatus.setTextColor(ContextCompat.getColor(context, R.color.status_new))
                 holder.txtline.setBackgroundColor(ContextCompat.getColor(context, R.color.status_new))
                 drawable.setColor(ContextCompat.getColor(context, R.color.status_new_background))
             }
-            context.getString(R.string.pending) // Pending
+            Enums.pending.toString() // Pending
             -> {
                 holder.txtstatus.setText(context.getString(R.string.inprogress))
                 holder.txtstatus.setTextColor(ContextCompat.getColor(context, R.color.status_pending))
                 holder.txtline.setBackgroundColor(ContextCompat.getColor(context, R.color.status_pending))
                 drawable.setColor(ContextCompat.getColor(context, R.color.status_pending_background))
             }
-            context.getString(R.string.locked) // locked
+            Enums.locked.toString() // locked
             -> {
-                val linkText = context.getString(R.string.link)
-                if (((position == 0 && dynamicStagesDAO.type.equals(linkText, ignoreCase = true))
-                                || (actualResponseJson.applicationStatus.equals(context.getString(R.string.rejected), ignoreCase = true) ||
-                                actualResponseJson.applicationStatus.equals(context.getString(R.string.accepted), ignoreCase = true)))
-                        || position > 0 && stagesList.get(position - 1).type.equals(context.getString(R.string.completed), ignoreCase = true)
-                        && dynamicStagesDAO.type.equals(linkText, ignoreCase = true)) {
-                    holder.txtstatus.text = context.getString(R.string.completedcaps)
-
-                    if (actualResponseJson.applicationStatus.equals(context.getString(R.string.rejected), ignoreCase = true)) {
-                        holder.txtstatus.setTextColor(ContextCompat.getColor(context, R.color.status_rejected))
-                        drawable.setColor(ContextCompat.getColor(context, R.color.status_rejected_background))
-                    } else if (actualResponseJson.applicationStatus.equals(context.getString(R.string.accepted), ignoreCase = true)) {
-                        holder.txtstatus.setTextColor(ContextCompat.getColor(context, R.color.status_accepted))
-                        drawable.setColor(ContextCompat.getColor(context, R.color.status_accepted_background))
-                    } else {
-                        holder.txtstatus.setTextColor(ContextCompat.getColor(context, R.color.status_locked))
-                        drawable.setColor(ContextCompat.getColor(context, R.color.transparent_color))
-                    }
-
-                }/* else if (!stagesList.get(position - 1).type.equals(context.getString(R.string.completed), ignoreCase = true)
-                        && dynamicStagesDAO.type.equals(linkText, ignoreCase = true)) {
-
-                }*/ else {
-                    holder.lldetail.setBackgroundResource(R.drawable.draw_bg_grey_stroke)
-                    holder.txtstatus.setTextColor(ContextCompat.getColor(context, R.color.status_locked))
-                    drawable.setColor(ContextCompat.getColor(context, R.color.status_locked_background))
-
-                }
-                holder.txtline.setBackgroundColor(ContextCompat.getColor(context, R.color.status_locked))
-
+              lockedCase(holder,dynamicStagesDAO,position,actualResponseJson,drawable)
             }
-            context.getString(R.string.completed) // Completed
+
+            Enums.completed.toString() // Completed
             -> {
                 completeStage(dynamicStagesDAO, holder, drawable, actualResponseJson)
             }
 
-            context.getString(R.string.complete) // Complete
+            Enums.complete.toString() // Complete
             -> {
                 completeStage(dynamicStagesDAO, holder, drawable, actualResponseJson)
             }
 
-            context.getString(R.string.rejected)  // Rejected
+            Enums.rejected.toString()  // Rejected
             -> {
 
                 holder.txtstatus.setTextColor(ContextCompat.getColor(context, R.color.status_rejected))
@@ -324,8 +299,42 @@ class ApplicationStagesAdapter(iscomingfromAssessor: Boolean, val stagesList: Mu
         }
     }
 
+    private fun lockedCase(holder: ActivitiesList, dynamicStagesDAO: DynamicStagesDAO, position: Int, actualResponseJson: DynamicResponseDAO, drawable: GradientDrawable)
+    {
+        val linkText = Enums.link.toString()
+        if (((position == 0 && dynamicStagesDAO.type.equals(linkText, ignoreCase = true))
+                        || (actualResponseJson.applicationStatus.equals(Enums.rejected.toString(), ignoreCase = true) ||
+                        actualResponseJson.applicationStatus.equals(Enums.accepted.toString(), ignoreCase = true)))
+                || position > 0 && stagesList.get(position - 1).type.equals(Enums.completed.toString(), ignoreCase = true)
+                && dynamicStagesDAO.type.equals(linkText, ignoreCase = true)) {
+            holder.txtstatus.text = context.getString(R.string.completedcaps)
 
-    private fun completeStage(dynamicStagesDAO: DynamicStagesDAO, holder: ActivitiesList, drawable: GradientDrawable, actualResponseJson: DynamicResponseDAO) {
+            if (actualResponseJson.applicationStatus.equals(Enums.rejected.toString(), ignoreCase = true)) {
+                holder.txtstatus.setTextColor(ContextCompat.getColor(context, R.color.status_rejected))
+                drawable.setColor(ContextCompat.getColor(context, R.color.status_rejected_background))
+            } else if (actualResponseJson.applicationStatus.equals(Enums.accepted.toString(), ignoreCase = true)) {
+                holder.txtstatus.setTextColor(ContextCompat.getColor(context, R.color.status_accepted))
+                drawable.setColor(ContextCompat.getColor(context, R.color.status_accepted_background))
+            } else {
+                holder.txtstatus.setTextColor(ContextCompat.getColor(context, R.color.status_locked))
+                drawable.setColor(ContextCompat.getColor(context, R.color.transparent_color))
+            }
+
+        }/* else if (!stagesList.get(position - 1).type.equals(context.getString(R.string.completed), ignoreCase = true)
+                        && dynamicStagesDAO.type.equals(linkText, ignoreCase = true)) {
+
+                }*/ else {
+            holder.lldetail.setBackgroundResource(R.drawable.draw_bg_grey_stroke)
+            holder.txtstatus.setTextColor(ContextCompat.getColor(context, R.color.status_locked))
+            drawable.setColor(ContextCompat.getColor(context, R.color.status_locked_background))
+
+        }
+        holder.txtline.setBackgroundColor(ContextCompat.getColor(context, R.color.status_locked))
+
+    }
+
+    private fun completeStage(dynamicStagesDAO: DynamicStagesDAO, holder: ActivitiesList, drawable: GradientDrawable,
+                              actualResponseJson: DynamicResponseDAO) {
         holder.txtstatus.setText(context.getString(R.string.completedcaps))
 
         var getAssessmentStatus = "";
@@ -333,10 +342,10 @@ class ApplicationStagesAdapter(iscomingfromAssessor: Boolean, val stagesList: Mu
             getAssessmentStatus = dynamicStagesDAO.criteriaList?.get(i)?.assessmentStatus.toString()
         }
 
-        if (getAssessmentStatus.equals(context.getString(R.string.rejected), ignoreCase = true) || actualResponseJson.applicationStatus.equals(context.getString(R.string.rejected), ignoreCase = true)) {
+        if (getAssessmentStatus.equals(Enums.rejected.toString(), ignoreCase = true) || actualResponseJson.applicationStatus.equals(Enums.rejected.toString(), ignoreCase = true)) {
             holder.txtstatus.setTextColor(ContextCompat.getColor(context, R.color.status_rejected))
             drawable.setColor(ContextCompat.getColor(context, R.color.status_rejected_background))
-        } else if (getAssessmentStatus.equals(context.getString(R.string.accepted), ignoreCase = true) || actualResponseJson.applicationStatus.equals(context.getString(R.string.accepted), ignoreCase = true)) {
+        } else if (getAssessmentStatus.equals(Enums.accepted.toString(), ignoreCase = true) || actualResponseJson.applicationStatus.equals(Enums.accepted.toString(), ignoreCase = true)) {
             holder.txtstatus.setTextColor(ContextCompat.getColor(context, R.color.status_accepted))
             drawable.setColor(ContextCompat.getColor(context, R.color.status_accepted_background))
         } else {

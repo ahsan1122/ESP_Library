@@ -187,6 +187,7 @@ class ListApplicationStageCriteriaCommentsAdapter(private val mApplications: Lis
     }//End Holder Class
 
 
+
     override fun getItemCount(): Int {
         return mApplications?.size ?: 0
 

@@ -1,28 +1,32 @@
 package utilities.adapters.setup.applications
 
-import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Filter
-import android.widget.Filterable
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE
 import com.esp.library.R
-import com.esp.library.utilities.common.Shared
 import com.esp.library.exceedersesp.BaseActivity
 import com.esp.library.exceedersesp.controllers.applications.AddApplicationsFromScreenActivity
+import com.esp.library.exceedersesp.controllers.applications.ApplicationsActivityDrawer
+import com.esp.library.utilities.common.CustomLogs
+import com.esp.library.utilities.common.Shared
 import utilities.data.applicants.addapplication.CategoryAndDefinationsDAO
 
 
 class ListApplicationSubDefinationAdapter(private val mApplications: List<CategoryAndDefinationsDAO>?,
-                                          con: BaseActivity) :
+                                          con: BaseActivity,
+                                          subdefinationList: RecyclerView) :
         androidx.recyclerview.widget.RecyclerView.Adapter<ListApplicationSubDefinationAdapter.ParentViewHolder>(), Filterable {
 
     // internal var mCat: CategorySelection? = null
     private var context: BaseActivity
     var mApplicationsFiltered: List<CategoryAndDefinationsDAO>? = null
+    var subDefinationList: RecyclerView? = null
 
 
     var search_text: String = "";
@@ -36,8 +40,9 @@ class ListApplicationSubDefinationAdapter(private val mApplications: List<Catego
     inner class ActivitiesList(v: View) : ParentViewHolder(v) {
 
 
-        internal var llparent: LinearLayout
+        internal var llparent: RelativeLayout
         internal var name: TextView
+        internal var btnClickable: LinearLayout
         internal var description: TextView
         internal var txtparentnum: TextView
         internal var txtrequestedby: TextView
@@ -45,6 +50,8 @@ class ListApplicationSubDefinationAdapter(private val mApplications: List<Catego
         internal var txtrequestedbyvalue: TextView
 
         init {
+
+            btnClickable = itemView.findViewById(R.id.btnClickable)
             llparent = itemView.findViewById(R.id.llparent)
             name = itemView.findViewById(R.id.name)
             description = itemView.findViewById(R.id.description)
@@ -62,6 +69,8 @@ class ListApplicationSubDefinationAdapter(private val mApplications: List<Catego
     init {
         context = con
         mApplicationsFiltered = mApplications
+        subDefinationList = subdefinationList
+
         /*try {
             mCat = context as CategorySelection
         } catch (e: ClassCastException) {
@@ -71,15 +80,14 @@ class ListApplicationSubDefinationAdapter(private val mApplications: List<Catego
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ParentViewHolder {
-        val v: View
-        v = LayoutInflater.from(parent.context).inflate(R.layout.add_sub_def_category_list, parent, false)
+        val v: View = LayoutInflater.from(parent.context).inflate(R.layout.add_sub_def_category_list, parent, false)
         return ActivitiesList(v)
     }
 
 
-    @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder_parent: ParentViewHolder, position: Int) {
 
+        CustomLogs.displayLogs("onBindViewHolder")
         val holder = holder_parent as ActivitiesList
         val getmApplications = mApplicationsFiltered!!.get(position)
 
@@ -109,16 +117,35 @@ class ListApplicationSubDefinationAdapter(private val mApplications: List<Catego
         }*/
 
 
-
-
-
-        holder.llparent.setOnClickListener {
+        /*holder.btnClickable.setOnClickListener {
             callIntent(getmApplications)
+        }*/
+
+
+
+        holder.btnClickable.setOnClickListener {
+            if (ApplicationsActivityDrawer.isClickEnable)
+                callIntent(getmApplications)
         }
 
 
-        /*
-        holder.name.setOnClickListener {
+        /*holder.btnClickable.setOnTouchListener { v, event ->
+            when (event?.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    val handler = Handler()
+                    handler.postDelayed({
+                        if (subDefinationList?.scrollState == SCROLL_STATE_IDLE)
+                            holder.btnClickable.performClick()
+                    }, 1000)
+
+                }
+            }
+
+            v?.onTouchEvent(event) ?: true
+        }*/
+
+
+        /*holder.name.setOnClickListener {
             callIntent(getmApplications)
         }
 

@@ -231,7 +231,8 @@ class ListAddApplicationSectionsAdapter(mApplication: ArrayList<DynamicFormSecti
         holder.rvFieldsCards.layoutManager = linearLayoutManager
 
 
-        holder.rlsection.setOnClickListener {
+
+        holder.ivarrow.setOnClickListener {
             if (holder.rvFieldsCards.visibility == View.VISIBLE) {
 
 
@@ -251,12 +252,12 @@ class ListAddApplicationSectionsAdapter(mApplication: ArrayList<DynamicFormSecti
                         for (j in dynamicFormSectionDAO.fieldsCardsList!![i].fields!!.indices) {
                             val label = dynamicFormSectionDAO.fieldsCardsList!![i].fields?.get(j)?.label
                             concateLabel.append(label)
-                            concateLabel.append(",")
+                            concateLabel.append(", ")
                         }
                     }
 
                     var fieldLabels: String
-                    fieldLabels = concateLabel.toString()
+                    fieldLabels = concateLabel.toString().trim()
                     if (fieldLabels.endsWith(",")) {
                         fieldLabels = fieldLabels.substring(0, fieldLabels.length - 1);
                     }
@@ -270,7 +271,7 @@ class ListAddApplicationSectionsAdapter(mApplication: ArrayList<DynamicFormSecti
             } else {
                 if (dynamicFormSectionDAO.isMultipule && !isViewOnly)
                     holder.rladdnewsection.visibility = View.VISIBLE
-                    holder.rvFieldsCards.visibility = View.VISIBLE
+                holder.rvFieldsCards.visibility = View.VISIBLE
                 holder.tvSectionLabelsName.visibility = View.GONE
                 holder.rlsection.setBackgroundColor(ContextCompat.getColor(context, R.color.white))
                 //   holder.tvSectionHeaderCount.setTextColor(ContextCompat.getColor(context, R.color.green))
@@ -279,10 +280,6 @@ class ListAddApplicationSectionsAdapter(mApplication: ArrayList<DynamicFormSecti
 
 
             }
-        }
-
-        holder.ivarrow.setOnClickListener {
-            holder.rlsection.performClick()
         }
 
         //    var getAssessmentStatus = dynamicStagesCriteriaListDAO?.assessmentStatus

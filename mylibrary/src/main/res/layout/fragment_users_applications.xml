@@ -89,7 +89,11 @@
         android:background="@color/view_bg">
 
 
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="2"
+    android:orientation="vertical">
 
         <RelativeLayout
             android:id="@+id/rlcardstack"
@@ -157,7 +161,7 @@
             <com.esp.library.exceedersesp.controllers.tindercard.CardStackView
                 android:id="@+id/card_stack_view"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_152sdp"
+                android:layout_height="match_parent"
                 android:layout_below="@+id/txtrequesttoscreen"
                 android:padding="4dp"
                 android:clipToPadding="false">
@@ -168,10 +172,6 @@
 
 
         </RelativeLayout>
-
-
-
-
 
         <com.esp.library.utilities.customcontrols.BodyText
             android:id="@+id/txtrequestcount"
@@ -228,6 +228,9 @@
             </androidx.recyclerview.widget.RecyclerView>
 
         </RelativeLayout>
+
+
+</LinearLayout>
         <RelativeLayout
             android:id="@+id/load_more_div"
             android:layout_width="match_parent"

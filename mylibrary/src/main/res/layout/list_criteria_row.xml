@@ -34,7 +34,7 @@
 
             <com.esp.library.utilities.customcontrols.BodyText
                 android:id="@+id/txtcrierianame"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_5sdp"
@@ -114,11 +114,11 @@
                     android:id="@+id/ownertextvalue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:maxWidth="@dimen/_210sdp"
                     android:layout_marginStart="@dimen/_4sdp"
                     android:paddingEnd="@dimen/_10sdp"
                     android:layout_toEndOf="@+id/ownertext"
                     android:text="@string/ownercolon"
-                    android:layout_toStartOf="@+id/add_criteria_comments"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_13ssp"
                     custom:customfont="regular" />

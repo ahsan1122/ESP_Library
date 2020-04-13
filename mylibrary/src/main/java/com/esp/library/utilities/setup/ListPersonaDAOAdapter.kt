@@ -9,11 +9,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.esp.library.R
-import com.esp.library.utilities.common.Constants
-import com.esp.library.utilities.common.CustomLogs
-import com.esp.library.utilities.common.Shared
-import com.esp.library.utilities.common.SharedPreference
 import com.esp.library.exceedersesp.BaseActivity
+import com.esp.library.utilities.common.*
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -131,9 +128,9 @@ class ListPersonaDAOAdapter(persoans: List<OrganizationPersonaDao.Personas>, int
             pref.saveOrganizationId(section.id)
 
             if (personaDAO.type?.toLowerCase().equals("app", ignoreCase = true)) {
-                pref.saveSelectedUserRole(context.getString(R.string.applicant))
+                pref.saveSelectedUserRole(Enums.applicant.toString())
             } else {
-                pref.saveSelectedUserRole(context.getString(R.string.assessor))
+                pref.saveSelectedUserRole(Enums.assessor.toString())
             }
 
             postFirebaseToken(personaDAO1.id)

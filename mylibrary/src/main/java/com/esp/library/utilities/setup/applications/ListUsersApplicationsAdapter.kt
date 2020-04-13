@@ -54,7 +54,8 @@ class ListUsersApplicationsAdapter(private var mApplications: List<ApplicationsD
         internal var applicationNumber: TextView
         internal var rlrequestNum: RelativeLayout
         internal var txtstatus: TextView
-        internal var reasontext: TextView
+        internal var reasontextvalue: TextView
+        internal var rlreason: RelativeLayout
         internal var ibRemoveCard: ImageButton
         internal var categorytext: TextView
         internal var pendingfor: TextView? = null
@@ -73,9 +74,10 @@ class ListUsersApplicationsAdapter(private var mApplications: List<ApplicationsD
             applicationNumber = itemView.findViewById(R.id.applicationNumber)
             rlrequestNum = itemView.findViewById(R.id.rlrequestNum)
             txtstatus = itemView.findViewById(R.id.txtstatus)
+            rlreason = itemView.findViewById(R.id.rlreason)
             ibRemoveCard = itemView.findViewById(R.id.ibRemoveCard)
             categorytext = itemView.findViewById(R.id.categorytext)
-            reasontext = itemView.findViewById(R.id.reasontext)
+            reasontextvalue = itemView.findViewById(R.id.reasontextvalue)
             status_list = itemView.findViewById(R.id.status_list)
             voverduedot = itemView.findViewById(R.id.voverduedot)
             status_list.setHasFixedSize(true)
@@ -226,13 +228,13 @@ class ListUsersApplicationsAdapter(private var mApplications: List<ApplicationsD
         holder.status_list.adapter = statusAdapter
 
         if (applicationsDAO?.statusId == 4) {
-            holder.reasontext.visibility = View.VISIBLE
+            holder.rlreason.visibility = View.VISIBLE
             /*val lp = holder.txtstatus.getLayoutParams() as RelativeLayout.LayoutParams
             lp.addRule(RelativeLayout.BELOW, holder.reasontext.getId());
             holder.txtstatus.setLayoutParams(lp);*/
             GetApplicationFeedBack(applicationsDAO.id.toString(), holder)
         } else
-            holder.reasontext.visibility = View.GONE
+            holder.rlreason.visibility = View.GONE
 
         if (applicationsDAO?.statusId == 1) // if draft application hide submitted on and align status for this purpose swap submitted on with request # and hide request #
         {
@@ -414,15 +416,15 @@ class ListUsersApplicationsAdapter(private var mApplications: List<ApplicationsD
                 if (response?.body() != null && response.body().size > 0) {
                     for (i in 0 until response.body().size) {
                         val comment = response.body()[i].comment
-                        val reasonTextConcate = context?.getString(R.string.reasonfordecline) + " " + comment
+                        /*val reasonTextConcate = context?.getString(R.string.reasonfordecline) + " " + comment
                         val wordtoSpan: Spannable = SpannableString(reasonTextConcate)
                         wordtoSpan.setSpan(ForegroundColorSpan(ContextCompat.getColor(context!!, R.color.coolgrey)), 0, 22, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                         wordtoSpan.setSpan(ForegroundColorSpan(ContextCompat.getColor(context!!, R.color.black)), 23, reasonTextConcate.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
+*/
                         if (comment.isNullOrEmpty())
-                            holder.reasontext.visibility = View.GONE
+                            holder.rlreason.visibility = View.GONE
                         else
-                            holder.reasontext.setText(wordtoSpan);
+                            holder.reasontextvalue.text = comment;
 
 
                     }

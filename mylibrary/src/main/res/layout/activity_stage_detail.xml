@@ -89,11 +89,10 @@
 
             <com.esp.library.utilities.customcontrols.BodyText
                 android:id="@+id/txtStagename"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/stages"
-                android:layout_toStartOf="@+id/txtstatus"
                 android:layout_marginEnd="@dimen/_7sdp"
+                android:text="@string/stages"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_18ssp"
                 custom:customfont="bold" />

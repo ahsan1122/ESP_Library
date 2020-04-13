@@ -42,6 +42,7 @@ import com.esp.library.ipaulpro.afilechooser.utils.FileUtils;
 import com.esp.library.utilities.common.AlertActionWindow;
 import com.esp.library.utilities.common.Constants;
 import com.esp.library.utilities.common.CustomLogs;
+import com.esp.library.utilities.common.Enums;
 import com.esp.library.utilities.common.KeyboardUtils;
 import com.esp.library.utilities.common.ProgressBarAnimation;
 import com.esp.library.utilities.common.RealPathUtil;
@@ -223,6 +224,8 @@ public class ApplicationDetailScreenActivity extends BaseActivity implements App
         initailize();
         setGravity();
         loadData();
+
+
 
         swipeRefreshLayout.setOnRefreshListener(() -> loadData());
 
@@ -794,7 +797,7 @@ public class ApplicationDetailScreenActivity extends BaseActivity implements App
                         feedbackDao.setUserImage(applicationsFeedbackDAO.getImageUrl());
                         String role = getString(R.string.member);
                         if (applicationsFeedbackDAO.isAdmin())
-                            role = getString(R.string.assessor);
+                            role = Enums.assessor.toString();
 
                        /* if (role.equalsIgnoreCase(bContext.getString(R.string.applicant)))
                             role = getString(R.string.member);*/
@@ -959,6 +962,7 @@ public class ApplicationDetailScreenActivity extends BaseActivity implements App
         GradientDrawable drawable = (GradientDrawable) status.getBackground();
         switch (statusId) {
             case 0: // Invited
+                status.setText(getString(R.string.invited));
                 status.setTextColor(getResources().getColor(R.color.status_invited));
                 drawable.setColor(ContextCompat.getColor(bContext, R.color.status_invited_background));
                 break;
@@ -973,16 +977,19 @@ public class ApplicationDetailScreenActivity extends BaseActivity implements App
                 drawable.setColor(ContextCompat.getColor(bContext, R.color.status_pending_background));
                 break;
             case 3: // Accepted
+                status.setText(getString(R.string.accepted));
                 status.setTextColor(getResources().getColor(R.color.status_accepted));
                 drawable.setColor(ContextCompat.getColor(bContext, R.color.status_accepted_background));
                 break;
             case 4:  // Rejected
+                status.setText(getString(R.string.rejected));
                 status.setTextColor(getResources().getColor(R.color.status_rejected));
                 drawable.setColor(ContextCompat.getColor(bContext, R.color.status_rejected_background));
                 submit_btn.setText(getString(R.string.resubmit));
                 break;
 
             case 5:  // Cancelled
+                status.setText(getString(R.string.cancelled));
                 status.setTextColor(getResources().getColor(R.color.status_draft));
                 drawable.setColor(ContextCompat.getColor(bContext, R.color.status_draft_background));
                 break;
@@ -1109,12 +1116,12 @@ public class ApplicationDetailScreenActivity extends BaseActivity implements App
     }
 
     private void populateStagesData(List<DynamicStagesDAO> responseStages) {
-        if (pref.getSelectedUserRole().equalsIgnoreCase(getString(R.string.assessor)))
+        if (pref.getSelectedUserRole().equalsIgnoreCase(Enums.assessor.toString()))
             isComingfromAssessor = true;
 
-        if (isComingfromAssessor || actual_response.getStageVisibilityApplicant().equalsIgnoreCase(getString(R.string.all))
-                || actual_response.getStageVisibilityApplicant().equalsIgnoreCase(getString(R.string.allwithfeedback))
-                || actual_response.getStageVisibilityApplicant().equalsIgnoreCase(getString(R.string.current))) {
+        if (isComingfromAssessor || actual_response.getStageVisibilityApplicant().equalsIgnoreCase(Enums.all.toString())
+                || actual_response.getStageVisibilityApplicant().equalsIgnoreCase(Enums.allwithfeedback.toString())
+                || actual_response.getStageVisibilityApplicant().equalsIgnoreCase(Enums.current.toString())) {
             isComingfromAssessor = true; // if status = ALL or Current or All with feedback
             txtapprovalStages.setVisibility(View.VISIBLE);
         } else
@@ -1583,7 +1590,7 @@ public class ApplicationDetailScreenActivity extends BaseActivity implements App
 
     private void SubmitForm(DynamicResponseDAO post, String whatodo) {
 
-        if (post.getApplicationStatus().equalsIgnoreCase(getString(R.string.rejected)))
+        if (post.getApplicationStatus().equalsIgnoreCase(Enums.rejected.toString()))
             post.setApplicationId(0);
 
 
@@ -1731,6 +1738,7 @@ public class ApplicationDetailScreenActivity extends BaseActivity implements App
             status.setGravity(Gravity.RIGHT);
             heading.setGravity(Gravity.RIGHT);
             categorytext.setGravity(Gravity.RIGHT);
+            ivdetailarrow.setImageResource(R.drawable.ic_left_arrow);
 
         } else {
             definitionName.setGravity(Gravity.LEFT);
@@ -1742,6 +1750,7 @@ public class ApplicationDetailScreenActivity extends BaseActivity implements App
             status.setGravity(Gravity.LEFT);
             heading.setGravity(Gravity.LEFT);
             categorytext.setGravity(Gravity.LEFT);
+            ivdetailarrow.setImageResource(R.drawable.ic_arrow_right);
         }
     }
 

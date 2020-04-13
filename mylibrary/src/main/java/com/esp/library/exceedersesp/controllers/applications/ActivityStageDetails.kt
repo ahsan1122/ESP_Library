@@ -11,6 +11,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.StrictMode
+import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -74,6 +75,7 @@ class ActivityStageDetails : BaseActivity(), CriteriaFieldsListener,
         setContentView(R.layout.activity_stage_detail)
         initailize()
         updateTopView()
+        setGravity()
 
         val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
@@ -960,6 +962,28 @@ class ActivityStageDetails : BaseActivity(), CriteriaFieldsListener,
             }
         }
         return super.dispatchTouchEvent(event)
+    }
+
+    private fun setGravity() {
+        if (pref!!.language.equals("ar", ignoreCase = true)) {
+            txtStagename.gravity = Gravity.RIGHT
+            conditiontext.gravity =(Gravity.RIGHT)
+            conditiontextvalue.gravity =(Gravity.RIGHT)
+            sequencetext.gravity =(Gravity.RIGHT)
+            sequencetextvalue.gravity =(Gravity.RIGHT)
+            acceptencetext.gravity =(Gravity.RIGHT)
+            acceptencetextvalue.gravity =(Gravity.RIGHT)
+            txtcriteria.gravity =(Gravity.RIGHT)
+        } else {
+            txtStagename.gravity =(Gravity.LEFT)
+            conditiontext.gravity =(Gravity.LEFT)
+            conditiontextvalue.gravity =(Gravity.LEFT)
+            sequencetext.gravity =(Gravity.LEFT)
+            sequencetextvalue.gravity =(Gravity.LEFT)
+            acceptencetext.gravity =(Gravity.LEFT)
+            acceptencetextvalue.gravity =(Gravity.LEFT)
+            txtcriteria.gravity =(Gravity.LEFT)
+        }
     }
 
     override fun onBackPressed() {

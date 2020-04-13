@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:paddingEnd="@dimen/_10sdp"
+        android:paddingStart="@dimen/_10sdp"
         android:paddingTop="@dimen/_10sdp"
         android:background="@drawable/draw_bg_disable_fields_with_stroke"
         android:visibility="gone"

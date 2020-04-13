@@ -35,6 +35,7 @@
             android:paddingStart="@dimen/_13sdp"
             android:paddingEnd="@dimen/_13sdp"
             android:paddingTop="@dimen/_15sdp"
+            android:paddingBottom="@dimen/_4sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -53,7 +54,7 @@
 
             <com.esp.library.utilities.customcontrols.BodyText
                 android:id="@+id/tvSectionHeader"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingEnd="@dimen/_5sdp"
                 android:layout_toEndOf="@+id/tvSectionHeaderCount"
@@ -65,7 +66,7 @@
 
             <com.esp.library.utilities.customcontrols.BodyText
                 android:id="@+id/tvSectionLabelsName"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toStartOf="@+id/ibshowoptions"
                 android:layout_below="@+id/tvSectionHeader"
@@ -114,7 +115,7 @@
             android:layout_height="match_parent"
             android:paddingStart="@dimen/_13sdp"
             android:paddingEnd="@dimen/_13sdp"
-            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_11sdp"
             android:animationCache="true"
             android:clipToPadding="false"
             android:keepScreenOn="true"
@@ -126,12 +127,17 @@
     </LinearLayout>
 
 
+
     <RelativeLayout
         android:id="@+id/rladdnewsection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/_15sdp"
-        android:paddingEnd="@dimen/_13sdp"
+        android:layout_marginStart="@dimen/_7sdp"
+        android:paddingStart="@dimen/_8sdp"
+        android:layout_marginEnd="@dimen/_13sdp"
+        android:paddingEnd="@dimen/_8sdp"
+        android:paddingTop="@dimen/_5sdp"
+        android:paddingBottom="@dimen/_5sdp"
         android:background="?attr/selectableItemBackground"
         android:layout_marginBottom="@dimen/_20sdp"
         android:layout_gravity="start">

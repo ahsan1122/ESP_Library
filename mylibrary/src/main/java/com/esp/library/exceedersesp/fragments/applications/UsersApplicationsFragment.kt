@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
 import android.view.inputmethod.InputMethodManager
+import android.widget.LinearLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.esp.library.R
@@ -124,6 +125,7 @@ class UsersApplicationsFragment : androidx.fragment.app.Fragment(), CardStackLis
         val v = inflater.inflate(R.layout.fragment_users_applications, container, false)
         initailize(v)
         initializeCards()
+        setGravity(v)
 
 
         v.app_list.addOnScrollListener(object : androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
@@ -182,7 +184,7 @@ class UsersApplicationsFragment : androidx.fragment.app.Fragment(), CardStackLis
         imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
 
-        if (ESPApplication.getInstance()?.user?.loginResponse?.role?.toLowerCase().equals(context?.getString(R.string.applicantsmall), ignoreCase = true)) {
+        if (ESPApplication.getInstance()?.user?.loginResponse?.role?.toLowerCase(Locale.getDefault()).equals(Enums.applicant.toString(), ignoreCase = true)) {
             v.txtnoapplicationadded?.text = context?.getString(R.string.no) + " " + pref?.getlabels()?.application + " " + context?.getString(R.string.added)
             v.txtnoapplicationadded?.text = context?.getString(R.string.startsubmittingapp) + " " + pref?.getlabels()?.application + " " + context?.getString(R.string.itseasy)
 
@@ -211,6 +213,18 @@ class UsersApplicationsFragment : androidx.fragment.app.Fragment(), CardStackLis
         cardStackView?.layoutManager = cardManager
 
 
+    }
+
+    private fun setGravity(v: View) {
+        val params: LinearLayout.LayoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+        if (pref!!.language.equals("ar", ignoreCase = true)) {
+            params.weight = 0.8f
+
+        } else {
+            params.weight = 0.9f
+        }
+        v.rlcardstack.layoutParams = params
     }
 
     override fun onCardDragging(direction: Direction, ratio: Float) {
@@ -317,7 +331,7 @@ class UsersApplicationsFragment : androidx.fragment.app.Fragment(), CardStackLis
             view?.load_more_div?.visibility = View.VISIBLE
         } else {
             start_loading_animation()
-            if (ESPApplication.getInstance().isComponent || ESPApplication.getInstance()?.user?.loginResponse?.role?.toLowerCase() == getString(R.string.applicantsmall))
+            if (ESPApplication.getInstance().isComponent || ESPApplication.getInstance()?.user?.loginResponse?.role?.toLowerCase(Locale.getDefault()) == Enums.applicant.toString())
                 refreshSubDefinitionListener?.refreshSubDefinition()
         }
 
@@ -347,7 +361,7 @@ class UsersApplicationsFragment : androidx.fragment.app.Fragment(), CardStackLis
 
             dao = Shared.getInstance().CloneFilter(ESPApplication.getInstance().filter)
 
-            if (ESPApplication.getInstance()?.user?.loginResponse?.role?.toLowerCase() == getString(R.string.applicantsmall)) {
+            if (ESPApplication.getInstance()?.user?.loginResponse?.role?.toLowerCase(Locale.getDefault()) == Enums.applicant.toString()) {
                 dao.isMySpace = false
                 dao.isFilterApplied = true
                 // dao.myApplications = true
@@ -361,7 +375,7 @@ class UsersApplicationsFragment : androidx.fragment.app.Fragment(), CardStackLis
 
             }
 
-            if (title.equals("open", ignoreCase = true)) {
+            if (title.equals(getString(R.string.open), ignoreCase = true)) {
                 list.add("1")
                 list.add("2")
                 dao.statuses = list
@@ -600,8 +614,8 @@ class UsersApplicationsFragment : androidx.fragment.app.Fragment(), CardStackLis
             /* if (ESPApplication.getInstance().filter.statuses!!.size < 5) {
                  dao.statuses = ESPApplication.getInstance().filter.statuses
              } else {*/
-            if (title.equals("open", ignoreCase = true) ||
-                    title.equals("pending", ignoreCase = true)) {
+            if (title.equals(getString(R.string.open), ignoreCase = true) ||
+                    title.equals(getString(R.string.pending), ignoreCase = true)) {
 
                 dao.isMySpace = true
                 dao.isFilterApplied = true
@@ -794,7 +808,7 @@ class UsersApplicationsFragment : androidx.fragment.app.Fragment(), CardStackLis
         try {
 
 
-            if (ESPApplication.getInstance()?.user?.loginResponse?.role?.toLowerCase().equals(context?.getString(R.string.applicantsmall), ignoreCase = true)) {
+            if (ESPApplication.getInstance()?.user?.loginResponse?.role?.toLowerCase(Locale.getDefault()).equals(Enums.applicant.toString(), ignoreCase = true)) {
                 view?.add_btn?.visibility = View.VISIBLE
                 view?.detail_text?.visibility = View.VISIBLE
 
@@ -818,7 +832,7 @@ class UsersApplicationsFragment : androidx.fragment.app.Fragment(), CardStackLis
 
     fun GetProfileStatus() {
 
-        if (!ESPApplication.getInstance()?.user?.loginResponse?.role?.toLowerCase().equals(context?.getString(R.string.applicantsmall), ignoreCase = true)) {
+        if (!ESPApplication.getInstance()?.user?.loginResponse?.role?.toLowerCase(Locale.getDefault()).equals(Enums.applicant.toString(), ignoreCase = true)) {
             stop_loading_animation()
             return
         }

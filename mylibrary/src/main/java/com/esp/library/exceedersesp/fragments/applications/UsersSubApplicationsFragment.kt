@@ -418,7 +418,7 @@ class UsersSubApplicationsFragment : Fragment() {
         view?.app_list?.visibility = View.GONE
         view?.no_subapplication_available_div?.visibility = View.VISIBLE
 
-        if (ESPApplication.getInstance().user.loginResponse?.role?.toLowerCase().equals(context?.getString(R.string.applicantsmall), ignoreCase = true)) {
+        if (ESPApplication.getInstance().user.loginResponse?.role?.toLowerCase(Locale.getDefault()).equals(Enums.applicant.toString(), ignoreCase = true)) {
             view?.add_btn?.visibility = View.VISIBLE
             view?.detail_text?.visibility = View.VISIBLE
         } else {
@@ -430,7 +430,7 @@ class UsersSubApplicationsFragment : Fragment() {
 
     fun GetProfileStatus() {
 
-        if (!ESPApplication.getInstance().user.loginResponse?.role?.toLowerCase().equals(context?.getString(R.string.applicantsmall), ignoreCase = true)) {
+        if (!ESPApplication.getInstance().user.loginResponse?.role?.toLowerCase(Locale.getDefault()).equals(Enums.applicant.toString(), ignoreCase = true)) {
             stop_loading_animation()
             return
         }

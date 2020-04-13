@@ -1435,7 +1435,7 @@ public class Shared {
 
         ProgressBar progressBar = new ProgressBar(context);
         progressBar.setIndeterminate(true);
-    //    progressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context,R.drawable.progress));
+        //    progressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context,R.drawable.progress));
         progressBar.setPadding(0, 0, llPadding, 0);
         progressBar.setLayoutParams(llParam);
 
@@ -1824,28 +1824,48 @@ public class Shared {
                 httpClient.addInterceptor(logging);
             }
 
-            String access_token;
+            String access_token = null;
             if (ESPApplication.getInstance().getAccess_token() != null)
                 access_token = ESPApplication.getInstance().getAccess_token();
-            else
+            else if (ESPApplication.getInstance().getUser() != null && ESPApplication.getInstance().getUser().getLoginResponse() != null)
                 access_token = ESPApplication.getInstance().getUser().getLoginResponse().getAccess_token();
 
-            httpClient.addInterceptor(chain -> {
-                Request original = chain.request();
-                Request.Builder requestBuilder = null;
-                if (ESPApplication.getInstance() != null) {
-                    requestBuilder = original.newBuilder()
-                            .header("locale", getLanguageSimpleContext(bContext))
-                            .header("Authorization", "bearer " + access_token);
+            if (access_token == null) {
+                httpClient.addInterceptor(chain -> {
+                    Request original = chain.request();
+                    Request.Builder requestBuilder = null;
+                    if (ESPApplication.getInstance() != null) {
+                        requestBuilder = original.newBuilder()
+                                .header("locale", getLanguageSimpleContext(bContext));
 
 
-                }
-                Request request = null;
-                if (requestBuilder != null)
-                    request = requestBuilder.build();
+                    }
+                    Request request = null;
+                    if (requestBuilder != null)
+                        request = requestBuilder.build();
 
-                return chain.proceed(request);
-            });
+                    return chain.proceed(request);
+                });
+            } else {
+
+                String finalAccess_token = access_token;
+                httpClient.addInterceptor(chain -> {
+                    Request original = chain.request();
+                    Request.Builder requestBuilder = null;
+                    if (ESPApplication.getInstance() != null) {
+                        requestBuilder = original.newBuilder()
+                                .header("locale", getLanguageSimpleContext(bContext))
+                                .header("Authorization", "bearer " + finalAccess_token);
+
+
+                    }
+                    Request request = null;
+                    if (requestBuilder != null)
+                        request = requestBuilder.build();
+
+                    return chain.proceed(request);
+                });
+            }
 
 
             httpClient.connectTimeout(5, TimeUnit.MINUTES);
@@ -2165,7 +2185,6 @@ public class Shared {
     public List<LookUpDAO> getLookUpItems(int id) {
         return lookUpItemHashMap.get(id);
     }
-
 
 
 }

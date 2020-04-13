@@ -245,7 +245,7 @@ class UsersList : BaseActivity(), UserListClickListener {
 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_my_applications, menu)
+        menuInflater.inflate(R.menu.menu_search, menu)
         myActionMenuItem = menu.findItem(R.id.action_search)
 
         searchView = myActionMenuItem!!.actionView as SearchView

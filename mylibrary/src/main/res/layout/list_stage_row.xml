@@ -41,10 +41,11 @@
 
         <com.esp.library.utilities.customcontrols.BodyText
             android:id="@+id/txtStagename"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/stages"
-            android:layout_toStartOf="@+id/txtstatus"
+            android:maxWidth="@dimen/_210sdp"
+            android:layout_alignParentStart="true"
             android:textColor="@color/black"
             android:textSize="@dimen/_17ssp"
             custom:customfont="heavy" />
@@ -54,6 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
+                android:maxWidth="@dimen/_80sdp"
                 android:paddingStart="@dimen/_8sdp"
                 android:paddingTop="@dimen/_2sdp"
                 android:paddingEnd="@dimen/_8sdp"

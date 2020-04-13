@@ -22,6 +22,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.esp.library.R
 import com.esp.library.exceedersesp.BaseActivity
 import com.esp.library.exceedersesp.ESPApplication
@@ -45,6 +46,8 @@ import utilities.data.applicants.addapplication.CategoryAndDefinationsDAO
 import utilities.data.setup.PersonaDAO
 import utilities.interfaces.DeleteFilterListener
 import utilities.interfaces.RefreshSubDefinitionListener
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ApplicationsActivityDrawer : BaseActivity(), UsersApplicationsFragment.HideShowPlus, AlertActionWindow.ActionInterface,
@@ -67,13 +70,15 @@ class ApplicationsActivityDrawer : BaseActivity(), UsersApplicationsFragment.Hid
     var sheetBehavior: BottomSheetBehavior<*>? = null
     internal var filter_adapter: FilterItemsAdapter? = null
 
+    var TAG:String="ApplicationsActivityDrawer"
+
     @SuppressLint("RestrictedApi")
     override fun mAction(IsShown: Boolean) {
         if (IsShown) {
             add_account.visibility = View.GONE
         } else {
             // addAccount.setVisibility(View.VISIBLE);
-            if (ESPApplication.getInstance()?.user?.loginResponse?.role?.toLowerCase() == getString(R.string.applicantsmall)) {
+            if (ESPApplication.getInstance()?.user?.loginResponse?.role?.toLowerCase(Locale.getDefault()) == Enums.applicant.toString()) {
                 if (sheetBehavior?.state != BottomSheetBehavior.STATE_EXPANDED && request_fragment_search.visibility == View.GONE) {
                     add_account.visibility = View.VISIBLE
                 }
@@ -114,7 +119,7 @@ class ApplicationsActivityDrawer : BaseActivity(), UsersApplicationsFragment.Hid
 
 
         sheetBehavior = BottomSheetBehavior.from(bottom_sheet);
-        if (ESPApplication.getInstance().isComponent) { //|| ESPApplication.getInstance()?.user?.loginResponse?.role?.toLowerCase() == getString(R.string.applicantsmall)) {
+        if (ESPApplication.getInstance().isComponent || ESPApplication.getInstance()?.user?.loginResponse?.role?.toLowerCase(Locale.getDefault()) == Enums.applicant.toString()) {
             if (Shared.getInstance().isWifiConnected(bContext)) {
                 loadDefinations()
             } else {
@@ -124,12 +129,12 @@ class ApplicationsActivityDrawer : BaseActivity(), UsersApplicationsFragment.Hid
 
         rlbottomSheetHeader.setOnClickListener {
             if (sheetBehavior?.state != BottomSheetBehavior.STATE_EXPANDED) {
-                sheetBehavior?.setState(BottomSheetBehavior.STATE_EXPANDED);
+                sheetBehavior?.state = BottomSheetBehavior.STATE_EXPANDED;
                 add_account.visibility = View.GONE
                 ivarrow.setImageResource(R.drawable.ic_arrow_down)
                 rlbottomSheetHeader.setBackgroundResource(R.drawable.draw_bg_simple_green)
             } else {
-                sheetBehavior?.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                sheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED;
                 ivarrow.setImageResource(R.drawable.ic_arrow_up)
                 add_account.visibility = View.VISIBLE
                 rlbottomSheetHeader.setBackgroundResource(R.drawable.draw_bg_submission_request)
@@ -138,35 +143,20 @@ class ApplicationsActivityDrawer : BaseActivity(), UsersApplicationsFragment.Hid
 
 
 
+        if (sub_defination_list?.scrollState == RecyclerView.SCROLL_STATE_DRAGGING)
+            isClickEnable=false
+        else if (sub_defination_list?.scrollState == RecyclerView.SCROLL_STATE_IDLE)
+            isClickEnable=true
 
-
-        sheetBehavior?.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+        sheetBehavior?.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             @SuppressLint("RestrictedApi")
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState) {
-                    BottomSheetBehavior.STATE_HIDDEN -> {
-                    }
-                    BottomSheetBehavior.STATE_EXPANDED -> {
-                        CustomLogs.displayLogs("$ACTIVITY_NAME STATE_EXPANDED")
-
-                        /*add_account.visibility = View.GONE
-                        ivarrow.setImageResource(R.drawable.ic_arrow_down)
-                        rlbottomSheetHeader.setBackgroundResource(R.drawable.draw_bg_simple_green)
-                        mDefAdapter?.notifyDataSetChanged()*/
-                    }
-                    BottomSheetBehavior.STATE_COLLAPSED -> {
-                        CustomLogs.displayLogs("$ACTIVITY_NAME STATE_COLLAPSED")
-                        /*ivarrow.setImageResource(R.drawable.ic_arrow_up)
-                        add_account.visibility = View.VISIBLE
-                        rlbottomSheetHeader.setBackgroundResource(R.drawable.draw_bg_submission_request)*/
-                    }
                     BottomSheetBehavior.STATE_DRAGGING -> {
                         CustomLogs.displayLogs("$ACTIVITY_NAME STATE_DRAGGING")
                         rlbottomSheetHeader.setBackgroundResource(R.drawable.draw_bg_simple_green)
                         add_account.visibility = View.GONE
                         sheetBehavior?.setState(BottomSheetBehavior.STATE_EXPANDED);
-                    }
-                    BottomSheetBehavior.STATE_SETTLING -> {
                     }
                 }
             }
@@ -191,7 +181,7 @@ class ApplicationsActivityDrawer : BaseActivity(), UsersApplicationsFragment.Hid
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
 
                 if (s.isEmpty()) {
-                    mDefAdapter = ListApplicationSubDefinationAdapter(filter_definition_list, context!!)
+                    mDefAdapter = ListApplicationSubDefinationAdapter(filter_definition_list, context!!,sub_defination_list)
                     sub_defination_list.adapter = mDefAdapter
 
                 } else {
@@ -289,6 +279,7 @@ class ApplicationsActivityDrawer : BaseActivity(), UsersApplicationsFragment.Hid
         sub_defination_list?.isNestedScrollingEnabled = true
 
         sub_defination_list?.setOnTouchListener { v, event ->
+
             v.parent.requestDisallowInterceptTouchEvent(true)
             v.onTouchEvent(event)
             true
@@ -301,6 +292,8 @@ class ApplicationsActivityDrawer : BaseActivity(), UsersApplicationsFragment.Hid
 
 
     }
+
+
 
 
     fun loadDefinations() {
@@ -321,15 +314,14 @@ class ApplicationsActivityDrawer : BaseActivity(), UsersApplicationsFragment.Hid
                     definition_list.addAll(body)
 
                     filter_definition_list.addAll(definition_list)
-                    mDefAdapter = ListApplicationSubDefinationAdapter(filter_definition_list, context!!)
+                    mDefAdapter = ListApplicationSubDefinationAdapter(filter_definition_list, context!!, sub_defination_list)
                     sub_defination_list.adapter = mDefAdapter
                     //   ViewCompat.setNestedScrollingEnabled(sub_defination_list, true);
                     listcount.text = mDefAdapter?.getItemCount().toString() + " " + pref?.getlabels()?.submissionRequests
                     txtsubmissionrequest.text = pref?.getlabels()?.submissionRequests + " (" + body.size + ")"
 
 
-                    if (ESPApplication.getInstance().isComponent ||
-                            ESPApplication.getInstance()?.user?.loginResponse?.role?.toLowerCase() == getString(R.string.applicantsmall)) {
+                    if (ESPApplication.getInstance().isComponent || ESPApplication.getInstance()?.user?.loginResponse?.role?.toLowerCase(Locale.getDefault()) == Enums.applicant.toString()) {
 
                         setLayoutMargin(resources.getDimensionPixelSize(R.dimen._55sdp), resources.getDimensionPixelSize(R.dimen._50sdp))
 
@@ -437,7 +429,7 @@ class ApplicationsActivityDrawer : BaseActivity(), UsersApplicationsFragment.Hid
 
         }
 
-        mDefAdapter = ListApplicationSubDefinationAdapter(filter_definition_list, context!!)
+        mDefAdapter = ListApplicationSubDefinationAdapter(filter_definition_list, context!!, sub_defination_list)
         sub_defination_list.adapter = mDefAdapter
         listcount.text = mDefAdapter?.itemCount.toString() + " " + pref?.getlabels()?.submissionRequests
 
@@ -447,6 +439,14 @@ class ApplicationsActivityDrawer : BaseActivity(), UsersApplicationsFragment.Hid
         super.onBackPressed()
         subDefinationsDAOFilteredList.clear()
     }
+
+    override fun onPause() {
+        super.onPause()
+
+    }
+
+
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
@@ -561,7 +561,7 @@ class ApplicationsActivityDrawer : BaseActivity(), UsersApplicationsFragment.Hid
                     submit_request_search?.txtrequestcount?.text = ""
                     submit_request_search?.mApplicationAdapter = null
                     request_fragment_search.visibility = View.VISIBLE
-                    if (ESPApplication.getInstance()?.user?.loginResponse?.role?.toLowerCase() == getString(R.string.applicantsmall)) {
+                    if (ESPApplication.getInstance()?.user?.loginResponse?.role?.toLowerCase(Locale.getDefault()) == Enums.applicant.toString()) {
                         if (bottom_sheet.visibility == View.VISIBLE) {
                             wasSheetShowing = true
                             bottom_sheet.visibility = View.GONE
@@ -577,7 +577,7 @@ class ApplicationsActivityDrawer : BaseActivity(), UsersApplicationsFragment.Hid
             @SuppressLint("RestrictedApi")
             override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
                 request_fragment_search.visibility = View.GONE
-                if (ESPApplication.getInstance()?.user?.loginResponse?.role?.toLowerCase() == getString(R.string.applicantsmall)) {
+                if (ESPApplication.getInstance()?.user?.loginResponse?.role?.toLowerCase(Locale.getDefault()) == Enums.applicant.toString()) {
 
 
                     /* submit_request = UsersApplicationsFragment.newInstance()
@@ -596,6 +596,17 @@ class ApplicationsActivityDrawer : BaseActivity(), UsersApplicationsFragment.Hid
         return true
     }
 
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_filter -> {
+                Shared.getInstance().callIntentWithResult(FilterScreenActivity::class.java, context, null, 2)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     private fun setGravity() {
         if (pref?.language.equals("ar", ignoreCase = true)) {
             toolbar_heading.gravity = Gravity.RIGHT
@@ -609,7 +620,7 @@ class ApplicationsActivityDrawer : BaseActivity(), UsersApplicationsFragment.Hid
 
     companion object {
 
-
+        var isClickEnable=false
         var ACTIVITY_NAME = "controllers.applications.ApplicationsActivityDrawer"
         var subDefinationsDAOFilteredList: ArrayList<CategoryAndDefinationsDAO> = ArrayList()
     }
@@ -650,6 +661,8 @@ class ApplicationsActivityDrawer : BaseActivity(), UsersApplicationsFragment.Hid
         }
         return super.dispatchTouchEvent(event)
     }
+
+
 
 
 }

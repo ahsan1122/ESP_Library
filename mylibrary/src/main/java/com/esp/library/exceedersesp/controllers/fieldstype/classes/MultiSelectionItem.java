@@ -127,7 +127,7 @@ public class MultiSelectionItem {
                 cb.setId(i);
                 cb.setTypeface(typeface);
                 removeRippleEffectFromCheckBox(cb);
-                cb.setPadding(30, 0, 0, 0);
+                cb.setPadding(30, 0, 30, 0);
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.setMargins(0, 22, 0, 0);
                 holder.llcheckbox.addView(cb, params);

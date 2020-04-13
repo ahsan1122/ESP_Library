@@ -185,17 +185,36 @@
                         android:textSize="@dimen/_13ssp"
                         custom:customfont="regular" />
 
+                    <RelativeLayout
+                        android:id="@+id/rlreason"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/_2sdp"
+                        android:paddingBottom="@dimen/_3sdp">
+
                     <com.esp.library.utilities.customcontrols.BodyText
                         android:id="@+id/reasontext"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingTop="@dimen/_2sdp"
-                        android:paddingBottom="@dimen/_3sdp"
                         android:text="@string/reasonfordecline"
                         android:textColor="@color/coolgrey"
                         android:textSize="@dimen/_13ssp"
                         custom:customfont="regular" />
 
+
+                        <com.esp.library.utilities.customcontrols.BodyText
+                            android:id="@+id/reasontextvalue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/reasonfordecline"
+                            android:layout_toEndOf="@+id/reasontext"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_13ssp"
+                            custom:customfont="regular" />
+
+
+                    </RelativeLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/status_list"

@@ -19,12 +19,15 @@ import com.esp.library.exceedersesp.controllers.applications.ActivityStageDetail
 import com.esp.library.exceedersesp.controllers.applications.ApplicationDetailScreenActivity
 import com.esp.library.exceedersesp.controllers.applications.AssessorApplicationStagesCeriteriaCommentsScreenActivity
 import com.esp.library.exceedersesp.controllers.applications.UsersList
+import com.esp.library.utilities.common.Enums
 import com.esp.library.utilities.common.Shared
 import com.esp.library.utilities.common.SharedPreference
 import com.google.gson.Gson
 import utilities.adapters.setup.applications.ListAddApplicationSectionsAdapter
 import utilities.data.applicants.dynamics.*
 import utilities.interfaces.FeedbackSubmissionClick
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ApplicationCriteriaAdapter(val criterialist: List<DynamicStagesCriteriaListDAO?>, con: Context, rvCrietria: androidx.recyclerview.widget.RecyclerView)
@@ -278,7 +281,7 @@ class ApplicationCriteriaAdapter(val criterialist: List<DynamicStagesCriteriaLis
 
 
 
-        if (pref?.selectedUserRole.equals(context?.getString(R.string.assessor), ignoreCase = true))
+        if (pref?.selectedUserRole.equals(Enums.assessor.toString(), ignoreCase = true))
             isComingfromAssessor = true
 
         if ((ESPApplication.getInstance()?.user?.role.equals(context?.getString(R.string.admin), ignoreCase = true)) ||
@@ -458,7 +461,7 @@ class ApplicationCriteriaAdapter(val criterialist: List<DynamicStagesCriteriaLis
         val assessmentStatus = criteriaListDAO?.assessmentStatus
         val actualResponseJson = Gson().fromJson(actualResponseJson, DynamicResponseDAO::class.java)
 
-        if (ESPApplication.getInstance().isComponent || ESPApplication.getInstance()?.user?.loginResponse?.role?.toLowerCase() == context?.getString(R.string.applicantsmall))
+        if (ESPApplication.getInstance().isComponent || ESPApplication.getInstance()?.user?.loginResponse?.role?.toLowerCase(Locale.getDefault()) == Enums.assessor.toString())
             holder.lldetail.setBackgroundResource(R.drawable.draw_bg_white)
         else
             holder.lldetail.setBackgroundResource(R.drawable.draw_bg_white_grey_stroke)

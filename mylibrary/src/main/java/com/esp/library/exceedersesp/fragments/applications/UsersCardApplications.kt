@@ -19,6 +19,7 @@ import com.esp.library.utilities.common.SharedPreference
 import com.esp.library.exceedersesp.BaseActivity
 import com.esp.library.exceedersesp.controllers.applications.AddApplicationsActivity
 import com.esp.library.exceedersesp.controllers.applications.filters.FilterScreenActivity
+import com.esp.library.utilities.common.Enums
 import com.facebook.shimmer.ShimmerFrameLayout
 import kotlinx.android.synthetic.main.activity_applications_drawer.*
 import kotlinx.android.synthetic.main.card_users_applications.*
@@ -123,7 +124,7 @@ class UsersCardApplications : BaseActivity() {
 
 
 
-        if (ESPApplication.getInstance()?.user?.loginResponse?.role?.toLowerCase().equals(context?.getString(R.string.applicantsmall), ignoreCase = true)) {
+        if (ESPApplication.getInstance()?.user?.loginResponse?.role?.toLowerCase(Locale.getDefault()).equals(Enums.applicant.toString(), ignoreCase = true)) {
             txtnoapplicationadded?.text = context?.getString(R.string.no) + " " + pref?.getlabels()?.application + " " + context?.getString(R.string.added)
             txtnoapplicationadded?.text = context?.getString(R.string.startsubmittingapp) + " " + pref?.getlabels()?.application + " " + context?.getString(R.string.itseasy)
 

@@ -55,6 +55,7 @@ public class CurrencyItem {
     AlertDialog materialAlertDialogBuilder = null;
     int mSelectedIndex = 0;
 
+
     public static CurrencyItem getInstance() {
         if (currencyItem == null)
             return currencyItem = new CurrencyItem();

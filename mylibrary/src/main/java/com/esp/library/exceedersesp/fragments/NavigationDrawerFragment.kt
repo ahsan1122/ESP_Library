@@ -133,7 +133,7 @@ class NavigationDrawerFragment : androidx.fragment.app.Fragment() {
         initailize(v)
 
         UpdateView()
-        populateSpinner();
+     //   populateSpinner();
         fm = context?.supportFragmentManager
        /* submit_request = ESPApplication.getInstance()?.user?.loginResponse?.let { SelectOrganizationFragment.newInstance(it) }
         val ft = fm?.beginTransaction()
@@ -191,7 +191,7 @@ class NavigationDrawerFragment : androidx.fragment.app.Fragment() {
 
         splanguage?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(adapterView: AdapterView<*>, view: View, i: Int, l: Long) {
-                changeLanguage(arrayLanguages.get(i));
+                //changeLanguage(arrayLanguages.get(i));
 
             }
 

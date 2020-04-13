@@ -206,8 +206,8 @@ class LoginScreenFragment : androidx.fragment.app.Fragment() {
             getIdenediUser()
         }
 
-        // pref?.savelanguage("en")
-        populateSpinner(v)
+         pref?.savelanguage("en")
+     //   populateSpinner(v)
 
         FirebaseInstanceId.getInstance().instanceId
                 .addOnCompleteListener(OnCompleteListener { task ->
@@ -287,7 +287,7 @@ class LoginScreenFragment : androidx.fragment.app.Fragment() {
 
         v.splanguage.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(adapterView: AdapterView<*>, view: View, i: Int, l: Long) {
-                changeLanguage(arrayLanguages[i], v)
+                //changeLanguage(arrayLanguages[i], v)
             }
 
             override fun onNothingSelected(adapterView: AdapterView<*>) {
